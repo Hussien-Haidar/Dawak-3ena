@@ -1,52 +1,40 @@
 <?php
 include 'config.php';
 
-date_default_timezone_set('Asia/Beirut'); // set the timezone to Lebanon
-$lebanonTime = new DateTime(); // get the current time
-$lebanonTime->setTimezone(new DateTimeZone('Asia/Beirut')); // set the timezone to Lebanon
+$email = $_POST['email'];
+$medicine = $_POST['medicine'];
+$pharmacy = $_POST['pharmacy'];
 
-$id_user;
-$uid = $_POST["uid"];
-$full_name = $_POST["full_name"];
-$email = $_POST["email"];
-$push_token = $_POST["push_token"];
-$created_at = $lebanonTime->format('d/m/Y');
+$res = mysqli_query($con, "SELECT * from users where email='$email'");
 
-$sql = "SELECT * FROM users WHERE BINARY email = '$email'";
-$result = mysqli_query($con, $sql);
+$res2 = mysqli_query($con, "SELECT medicines.*, pharmacists.pharmacy_name,
+medicines.id AS id FROM medicines
+JOIN pharmacists ON medicines.id_pharmacist = pharmacists.id
+WHERE pharmacists.pharmacy_name='$pharmacy' and medicines.name='$medicine'");
 
-if($row = mysqli_fetch_array($result)) {
+if ($row = mysqli_fetch_array($res)) {
     $id_user = $row['id'];
-    $response["exist"] = true;
-    $sql2 = "UPDATE users SET uid='$uid' WHERE email='$email'";
-    $result2 = mysqli_query($con, $sql2);
-} 
-else {
-    $response["exist"] = false;
-    $sql2 = "INSERT INTO users (uid, full_name, email, created_at) values 
-    ('$uid', '$full_name', '$email', '$created_at')";
-    $result2 = mysqli_query($con, $sql2);
-
-    $sql2 = "SELECT * FROM users WHERE BINARY email = '$email'";
-    $result2 = mysqli_query($con, $sql2);
-    if($row2 = mysqli_fetch_array($result2)) {
-        $id_user = $row2['id'];
-    } 
+}
+if ($row2 = mysqli_fetch_array($res2)) {
+    $id_medicine = $row2['id'];
 }
 
-$sql3 = "SELECT push_tokens.*, users.* FROM push_tokens
-JOIN users ON push_tokens.id_user = users.id
-WHERE push_tokens.id_user='$id_user'";
-$result3 = mysqli_query($con, $sql3);
+$res3 = mysqli_query($con, "SELECT * from saved_medicines where id_users=$id_user and id_medicines = $id_medicine");
 
-if(!$row3 = mysqli_fetch_array($result3)) {
-    $sql4 = "UPDATE push_tokens SET push_token='$push_token' WHERE id_user='$id_user'";
-    $result4 = mysqli_query($con, $sql4);
-}
+if ($row3 = mysqli_fetch_array($res3)) {
+    $response["action"] = "removed";
+    $response["message"] = "Removed from Saved";
+    $response["data"] = $id_medicine;
 
-else{
-    $sql4 = "INSERT INTO push_tokens (id_user, push_token) values ('$id_user','$push_token')";
-    $result4 = mysqli_query($con, $sql4);
+    $res4 = mysqli_query($con, "DELETE FROM saved_medicines
+    WHERE id_users='$id_user' and id_medicines='$id_medicine'");
+} else {
+    $response["action"] = "saved";
+    $response["message"] = "saved successfuly";
+    $response["data"] = $id_medicine;
+
+    $res4 = mysqli_query($con, "Insert INTO saved_medicines(id_users, id_medicines) 
+    values('$id_user', '$id_medicine')");
 }
 
 echo json_encode($response);
