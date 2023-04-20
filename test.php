@@ -1,41 +1,38 @@
 <?php
 include 'config.php';
 
-$id = 0;
-$name = $_POST['name'];
 $email = $_POST['email'];
+$medicine = $_POST['medicine'];
+$pharmacy = $_POST['pharmacy'];
 
-$result = mysqli_query($con, "SELECT medicines.*, pharmacists.*,
+$res = mysqli_query($con, "SELECT * from users where email='$email'");
+
+$res2 = mysqli_query($con, "SELECT medicines.*, pharmacists.pharmacy_name,
 medicines.id AS id FROM medicines
 JOIN pharmacists ON medicines.id_pharmacist = pharmacists.id
-WHERE name LIKE '%$name%' and amount>0 ORDER BY medicines.name;");
+WHERE pharmacists.pharmacy_name='$pharmacy' and medicines.name='$medicine'");
 
-$result2 = mysqli_query($con, "SELECT * FROM users where email='$email'");
-if ($row = mysqli_fetch_array($result2)) {
-    $id = $row['id'];
+if ($row = mysqli_fetch_array($res)) {
+    $id_user = $row['id'];
+}
+if ($row2 = mysqli_fetch_array($res2)) {
+    $id_medicine = $row2['id'];
 }
 
-$data = array();
-$saved_medicines = array();
+$res3 = mysqli_query($con, "SELECT * from saved_medicines where id_users=$id_user and id_medicines = $id_medicine");
 
-if (mysqli_num_rows($result) > 0) {
+if ($row3 = mysqli_fetch_array($res3)) {
+    $response["action"] = "removed";
+    $response["data"] = $id_medicine;
 
-    $result3 = mysqli_query($con, "Select * from saved_medicines where id_users = '$id'");
-
-    while ($row2 = $result3->fetch_assoc()) {
-        $saved_medicines[] = $row2['id_medicines'];
-    }
-
-    while ($row3 = $result->fetch_assoc()) {
-        $data[] = $row3;
-    }
-    $response["success"] = true;
-    $response["data"] = $data;
-    $response["saved_medicines"] = $saved_medicines;
-    $response["message"] = "";
+    $res4 = mysqli_query($con, "DELETE FROM saved_medicines
+    WHERE id_users='$id_user' and id_medicines='$id_medicine'");
 } else {
-    $response["success"] = false;
-    $response["message"] = "No data found";
+    $response["action"] = "saved";
+    $response["data"] = $id_medicine;
+
+    $res4 = mysqli_query($con, "Insert INTO saved_medicines(id_users, id_medicines) 
+    values('$id_user', '$id_medicine')");
 }
 
 echo json_encode($response);
