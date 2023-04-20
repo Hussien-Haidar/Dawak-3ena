@@ -62,7 +62,7 @@ class _NavBarState extends State<NavBar> {
                     CircleAvatar(
                       backgroundColor: Colors.grey[200],
                       child: Icon(
-                        Icons.book,
+                        Icons.bookmark_added,
                         color: Colors.red[200],
                       ),
                     ),

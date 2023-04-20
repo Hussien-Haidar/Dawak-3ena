@@ -1,5 +1,6 @@
 import 'package:find_medicine/pages/home.dart';
 import 'package:find_medicine/pages/login.dart';
+import 'package:find_medicine/pages/notifications.dart';
 import 'package:find_medicine/pages/saved_medicines.dart';
 import 'package:find_medicine/pages/auth_page.dart';
 import 'package:find_medicine/pages/wanted_medicines.dart';
@@ -20,6 +21,7 @@ Future main() async {
         '/home': (context) => const Home(),
         '/saved': (context) => const SavedMedicines(),
         '/wanted': (context) => const WantedMedicines(),
+        '/notifications': (context) => const Notifications(),
       },
     ),
   );

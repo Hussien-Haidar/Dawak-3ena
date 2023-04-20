@@ -159,9 +159,36 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
 
-                                //login/logout
+                                //notifications
                                 PopupMenuItem(
                                   value: 2,
+                                  //username
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      //notifications text
+                                      Text(
+                                        'Notifications',
+                                        style: TextStyle(
+                                          color: Colors.grey[700],
+                                          fontSize: 13,
+                                        ),
+                                      ),
+
+                                      //person icon
+                                      Icon(
+                                        Icons.notifications,
+                                        size: 20,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                //login/logout
+                                PopupMenuItem(
+                                  value: 3,
                                   //login/logout text and icon
                                   child: Row(
                                     mainAxisAlignment:
@@ -192,8 +219,17 @@ class _HomeState extends State<Home> {
                               ],
                             ).then(
                               (value) {
-                                //if login/logout value choosen
+                                //if notificatioons value chosen
                                 if (value == 2) {
+                                  if (username == 'guest') {
+                                    AuthService().signOutAnonymously();
+                                  } else {
+                                    Navigator.pushNamed(context, '/notifications');
+                                  }
+                                }
+
+                                //if login/logout value chosen
+                                if (value == 3) {
                                   if (username == 'guest') {
                                     AuthService().signOutAnonymously();
                                   } else {
@@ -430,7 +466,11 @@ class _HomeState extends State<Home> {
                                                   children: [
                                                     //icon
                                                     Icon(
-                                                      Icons.book,
+                                                      savedMedicines.contains(
+                                                              medicines[index]
+                                                                  ['id'])
+                                                          ? Icons.bookmark_added
+                                                          : Icons.bookmark_add,
                                                       color: savedMedicines
                                                               .contains(
                                                                   medicines[
