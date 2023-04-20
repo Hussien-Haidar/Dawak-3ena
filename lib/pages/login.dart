@@ -43,9 +43,8 @@ class _LoginState extends State<Login> {
 
                 //sign in/up using google button
                 GestureDetector(
-                  onTap: () => AuthService().signInWithGoogle(
-                    Scaffold.of(context).context
-                  ),
+                  onTap: () => AuthService()
+                      .signInWithGoogle(Scaffold.of(context).context),
                   child: Container(
                     height: 60,
                     width: double.infinity,
@@ -119,7 +118,7 @@ class _LoginState extends State<Login> {
                     GestureDetector(
                       //navigate to home page with guest username
                       onTap: () {
-                        Navigator.popAndPushNamed(context, '/home');
+                        AuthService().signInAnonymously();
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20),

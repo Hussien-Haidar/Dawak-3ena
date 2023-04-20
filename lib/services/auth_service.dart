@@ -117,9 +117,17 @@ class AuthService {
     }
   }
 
+  signInAnonymously() async {
+    await FirebaseAuth.instance.signInAnonymously();
+  }
+
   //google sign out
   Future<void> signOutGoogle() async {
     await FirebaseAuth.instance.signOut();
     await _googleSignIn.disconnect();
+  }
+
+  Future<void> signOutAnonymously() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

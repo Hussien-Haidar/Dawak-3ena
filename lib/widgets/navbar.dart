@@ -1,20 +1,21 @@
 // ignore_for_file: non_constant_identifier_names, deprecated_member_use
 
+import 'package:find_medicine/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mailto/mailto.dart';
 
 class NavBar extends StatefulWidget {
-  //required username argument
-  final String username;
-
-  const NavBar({super.key, required this.username});
+  const NavBar({super.key});
 
   @override
   State<NavBar> createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
+  var username = FirebaseAuth.instance.currentUser?.displayName ?? 'guest';
+
   //used to direct the user to the email app to contact with the team
   contactUs() async {
     //destination link
@@ -46,13 +47,13 @@ class _NavBarState extends State<NavBar> {
                 //navigate to saved medicines page or login page
                 onTap: () {
                   //navigate to saved medicines page with username argument if logged in
-                  if (widget.username != 'guest') {
+                  if (username != 'guest') {
                     Navigator.pushNamed(context, '/saved',
-                        arguments: {'username': widget.username});
+                        arguments: {'username': username});
                   }
                   //navigate to login page if guest
-                  if (widget.username == 'guest') {
-                    Navigator.pushNamed(context, '/login');
+                  if (username == 'guest') {
+                    AuthService().signOutAnonymously();
                   }
                 },
                 child: Column(
@@ -81,20 +82,20 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
 
-            //insert your medicine
+            //wanted
             SizedBox(
               width: 70,
               child: GestureDetector(
                 //navigate to wanted medicines page or to login page
                 onTap: () {
                   //navigate to wanted medicines page with username argument if logged in
-                  if (widget.username != 'guest') {
+                  if (username != 'guest') {
                     Navigator.pushNamed(context, '/wanted',
-                        arguments: {'username': widget.username});
+                        arguments: {'username': username});
                   }
                   //navigate to login page if guest
-                  if (widget.username == 'guest') {
-                    Navigator.pushNamed(context, '/login');
+                  if (username == 'guest') {
+                    AuthService().signOutAnonymously();
                   }
                 },
                 child: Column(

@@ -248,24 +248,24 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                     ),
                                   );
                                 });
-                          } else if (snapshot.hasError) {
+                          }
+                          //if data not found
+                          else if (!snapshot.hasData) {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Text(
-                                'Something went wrong',
+                                'No saved medicines',
                                 style: TextStyle(
                                   color: Colors.grey[700],
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                             );
-                          }
-                          //if data not found
-                          else {
+                          } else {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Text(
-                                'No saved medicines',
+                                'Something went wrong',
                                 style: TextStyle(
                                   color: Colors.grey[700],
                                   fontWeight: FontWeight.w700,

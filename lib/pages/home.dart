@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   var SearchedMedicine = TextEditingController();
   //username and profile image
   var username = FirebaseAuth.instance.currentUser?.displayName ?? 'guest';
-  var profileImage = FirebaseAuth.instance.currentUser?.photoURL;
+  var profileImage = FirebaseAuth.instance.currentUser?.photoURL ?? '';
 
   //default medicines list
   var medicines = [];
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
         body: {
           //$_POST['name'] which contains the search value
           'name': SearchedMedicine.text,
-          'email': FirebaseAuth.instance.currentUser?.email,
+          'email': FirebaseAuth.instance.currentUser?.email ?? '',
         },
       );
       //Decode the returned json in var result
@@ -89,12 +89,6 @@ class _HomeState extends State<Home> {
     });
     //decode the retreived json data
     var result = jsonDecode(response.body);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(result['message']),
-        backgroundColor: Colors.grey[500],
-      ),
-    );
     if (result["action"] == "saved") {
       savedMedicines.add(int.parse(result['data']));
     }
@@ -196,19 +190,26 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ],
-                            ).then((value) {
-                              //if login/logout value choosen
-                              if (value == 2) {
-                                if (username == 'guest') {
-                                  Navigator.pushNamed(context, '/login');
-                                } else {
-                                  AuthService().signOutGoogle();
+                            ).then(
+                              (value) {
+                                //if login/logout value choosen
+                                if (value == 2) {
+                                  if (username == 'guest') {
+                                    AuthService().signOutAnonymously();
+                                  } else {
+                                    AuthService().signOutGoogle();
+                                  }
                                 }
-                              }
-                            });
+                              },
+                            );
                           },
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(profileImage!),
+                            backgroundColor: Colors.grey[300],
+                            backgroundImage: profileImage != ''
+                                ? NetworkImage(profileImage)
+                                : const NetworkImage(
+                                    'https://img.icons8.com/office/256/guest-male.png',
+                                  ),
                             radius: 20,
                           ),
                         ),
@@ -266,7 +267,7 @@ class _HomeState extends State<Home> {
                 const SizedBox(height: 20),
 
                 //navbar
-                NavBar(username: username.toString()),
+                const NavBar(),
 
                 const SizedBox(height: 10),
 
@@ -280,206 +281,226 @@ class _HomeState extends State<Home> {
                       color: Colors.grey[100],
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
                     ),
-                    child: Column(
-                      children: [
-                        //sort button
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 0, 8, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //Medicines
-                              Text(
-                                "Medicines",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                  color: Colors.grey[800],
-                                ),
-                              ),
-
-                              //sort button
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(30)),
-                                    border: Border.all(
-                                      color: Colors.blue.shade700,
-                                    ),
-                                  ),
-                                  //sort by
-                                  child: Text(
-                                    "Filter",
-                                    style: TextStyle(
-                                      color: Colors.blue[700],
-                                      letterSpacing: 1.5,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          //sort button
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 0, 8, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                //Medicines
+                                Text(
+                                  "Medicines",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.grey[800],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
 
-                        //post
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: medicines.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 30, 0, 0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  //medicine name + pharmacy name + location and save buttons
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //medicine name + pharmacy name
-                                      Row(
-                                        children: [
-                                          //medicine name
-                                          Text(
-                                            medicines[index]['name'],
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          //pharmacy name
-                                          Text(
-                                            "${"(" + medicines[index]['pharmacy_name']})",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey[800],
-                                            ),
-                                          ),
-                                        ],
+                                //sort button
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(30)),
+                                      border: Border.all(
+                                        color: Colors.blue.shade700,
                                       ),
+                                    ),
+                                    //sort by
+                                    child: Text(
+                                      "Filter",
+                                      style: TextStyle(
+                                        color: Colors.blue[700],
+                                        letterSpacing: 1.5,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
 
-                                      const SizedBox(height: 5),
-
-                                      //todo: location button + save button
-                                      Row(
+                          //post
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: medicines.length,
+                            itemBuilder: (context, index) {
+                              if (medicines.isEmpty) {
+                                return const Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 30, 0, 0),
+                                  child: Text('data'),
+                                );
+                              } else {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 30, 0, 0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      //medicine name + pharmacy name + location and save buttons
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          //todo: location button
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: Row(
-                                              children: [
-                                                //icon
-                                                Icon(
-                                                  Icons.location_on,
-                                                  color: Colors.blue[700],
+                                          //medicine name + pharmacy name
+                                          Row(
+                                            children: [
+                                              //medicine name
+                                              Text(
+                                                medicines[index]['name'],
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-
-                                                //location name
-                                                Text(
-                                                  'Bekaa',
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.blue[700],
-                                                  ),
+                                              ),
+                                              //pharmacy name
+                                              Text(
+                                                "${"(" + medicines[index]['pharmacy_name']})",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.grey[800],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
 
-                                          const SizedBox(width: 20),
+                                          const SizedBox(height: 5),
 
-                                          //todo: save button
-                                          GestureDetector(
-                                            //execute saveMedicine method or navigate to login page
-                                            onTap: () async {
-                                              //execute saveMedicine method if logged in
-                                              if (username != 'guest') {
-                                                await saveMedicine(
-                                                    medicines[index]['name'],
-                                                    medicines[index]
-                                                        ['pharmacy_name']);
-                                                await getSearchedMedicines();
-                                                setState(() {});
-                                              }
-                                              //navigate to login page if guest
-                                              if (username == 'guest') {
-                                                Navigator.pushNamed(
-                                                    context, '/login');
-                                              }
-                                            },
-                                            child: Row(
-                                              children: [
-                                                //icon
-                                                Icon(
-                                                  Icons.book,
-                                                  color:
+                                          //todo: location button + save button
+                                          Row(
+                                            children: [
+                                              //todo: location button
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: Row(
+                                                  children: [
+                                                    //icon
+                                                    Icon(
+                                                      Icons.location_on,
+                                                      color: Colors.blue[700],
+                                                    ),
+
+                                                    //location name
+                                                    Text(
+                                                      'Bekaa',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.blue[700],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              const SizedBox(width: 20),
+
+                                              //todo: save button
+                                              GestureDetector(
+                                                //execute saveMedicine method or navigate to login page
+                                                onTap: () async {
+                                                  //execute saveMedicine method if logged in
+                                                  if (username != 'guest') {
+                                                    await saveMedicine(
+                                                        medicines[index]
+                                                            ['name'],
+                                                        medicines[index]
+                                                            ['pharmacy_name']);
+                                                    await getSearchedMedicines();
+                                                    setState(() {});
+                                                  }
+                                                  //navigate to login page if guest
+                                                  if (username == 'guest') {
+                                                    Navigator.pushNamed(
+                                                        context, '/login');
+                                                  }
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    //icon
+                                                    Icon(
+                                                      Icons.book,
+                                                      color: savedMedicines
+                                                              .contains(
+                                                                  medicines[
+                                                                          index]
+                                                                      ['id'])
+                                                          ? Colors.red[200]
+                                                          : Colors.grey[500],
+                                                    ),
+
+                                                    //save
+                                                    Text(
                                                       savedMedicines.contains(
                                                               medicines[index]
                                                                   ['id'])
-                                                          ? Colors.red[200]
-                                                          : Colors.grey[500],
+                                                          ? "Saved"
+                                                          : "Save",
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey[700],
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-
-                                                //save
-                                                Text(
-                                                  "Save",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.grey[700],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
+                                      //whatsapp button
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 14, vertical: 8),
+                                          decoration: const BoxDecoration(
+                                            color:
+                                                Color.fromARGB(255, 0, 172, 6),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(15),
+                                            ),
+                                          ),
+                                          child: GestureDetector(
+                                            //direct user to whatsapp specifically to the retreived number
+                                            onTap: () async {
+                                              var link = WhatsAppUnilink(
+                                                phoneNumber: "+961" +
+                                                    medicines[index]
+                                                        ['phone_number'],
+                                              );
+                                              await launch('$link');
+                                            },
+                                            child: SvgPicture.asset(
+                                              "assets/icons/whatsapp.svg",
+                                              height: 26,
+                                              color: Colors.grey[300],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                  //whatsapp button
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 15),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 14, vertical: 8),
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromARGB(255, 0, 172, 6),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(15),
-                                        ),
-                                      ),
-                                      child: GestureDetector(
-                                        //direct user to whatsapp specifically to the retreived number
-                                        onTap: () async {
-                                          var link = WhatsAppUnilink(
-                                            phoneNumber: "+961" +
-                                                medicines[index]
-                                                    ['phone_number'],
-                                          );
-                                          await launch('$link');
-                                        },
-                                        child: SvgPicture.asset(
-                                          "assets/icons/whatsapp.svg",
-                                          height: 26,
-                                          color: Colors.grey[300],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
