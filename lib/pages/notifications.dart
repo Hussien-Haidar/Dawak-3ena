@@ -21,10 +21,13 @@ class _NotificationsState extends State<Notifications> {
     var link =
         'http://hussien300.000webhostapp.com/Dawak%203ena/notifications.php';
     Uri url = Uri.parse(link);
-    var response = await http.post(url, body: {
-      //$_POST['username']
-      'email': email,
-    });
+    var response = await http.post(
+      url,
+      body: {
+        //$_POST['username']
+        'email': email ?? '',
+      },
+    );
     //decode the retreived json data
     var result = jsonDecode(response.body);
     return result;
@@ -72,7 +75,8 @@ class _NotificationsState extends State<Notifications> {
                                     Expanded(
                                       child: Text(
                                         list[index]['title'],
-                                        style: const TextStyle(
+                                        style: TextStyle(
+                                          color: Colors.grey[800],
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20,
                                         ),
@@ -124,10 +128,10 @@ class _NotificationsState extends State<Notifications> {
                             );
                           },
                         );
-                      } else if (snapshot.connectionState == ConnectionState.none) {
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.none) {
                         return const Text('Something went Wrong');
-                      }
-                      else{
+                      } else {
                         return const Text('No notifications');
                       }
                     },
