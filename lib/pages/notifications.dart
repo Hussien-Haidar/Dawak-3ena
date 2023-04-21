@@ -54,7 +54,7 @@ class _NotificationsState extends State<Notifications> {
                         return const Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
-                          child: Text('proceding...'),
+                          child: Text('proceeding...'),
                         );
                       } else if (snapshot.hasData) {
                         //fill data with map
@@ -124,7 +124,10 @@ class _NotificationsState extends State<Notifications> {
                             );
                           },
                         );
-                      } else {
+                      } else if (snapshot.connectionState == ConnectionState.none) {
+                        return const Text('Something went Wrong');
+                      }
+                      else{
                         return const Text('No notifications');
                       }
                     },
