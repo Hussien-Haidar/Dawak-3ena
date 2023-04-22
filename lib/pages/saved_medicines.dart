@@ -175,18 +175,58 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                               GestureDetector(
                                                 //execute saveMedicine method
                                                 onTap: () {
-                                                  saveMedicine(
-                                                    list[index]['name'],
-                                                    list[index]
-                                                        ['pharmacy_name'],
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title:
+                                                            const Text('Alert'),
+                                                        content: const Text(
+                                                            'Are you sure you want to remove the post from your save list?'),
+                                                        actions: [
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary: Colors
+                                                                  .grey[700],
+                                                            ),
+                                                            child: const Text(
+                                                                'Back'),
+                                                          ),
+                                                          ElevatedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                              await saveMedicine(
+                                                                list[index]
+                                                                    ['name'],
+                                                                list[index][
+                                                                    'pharmacy_name'],
+                                                              );
+                                                              setState(() {});
+                                                            },
+                                                            child: const Text(
+                                                                'Confirm'),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
                                                   );
-                                                  setState(() {});
                                                 },
 
                                                 child: Row(
                                                   children: [
                                                     Icon(
-                                                      Icons.book,
+                                                      Icons.bookmark_added,
                                                       color: Colors.red[200],
                                                     ),
                                                     //
