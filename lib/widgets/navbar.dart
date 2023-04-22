@@ -53,7 +53,34 @@ class _NavBarState extends State<NavBar> {
                   }
                   //navigate to login page if guest
                   if (username == 'guest') {
-                    AuthService().signOutAnonymously();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Alert'),
+                          content:
+                              const Text('you must be signed in, do you want?'),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey[700],
+                              ),
+                              child: const Text('Back'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.of(context).pop();
+                                AuthService().signOutAnonymously();
+                              },
+                              child: const Text('Confirm'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 },
                 child: Column(
@@ -95,7 +122,34 @@ class _NavBarState extends State<NavBar> {
                   }
                   //navigate to login page if guest
                   if (username == 'guest') {
-                    AuthService().signOutAnonymously();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Alert'),
+                          content:
+                              const Text('you must be signed in, do you want?'),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey[700],
+                              ),
+                              child: const Text('Back'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.of(context).pop();
+                                AuthService().signOutAnonymously();
+                              },
+                              child: const Text('Confirm'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 },
                 child: Column(

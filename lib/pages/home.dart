@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   var SearchedMedicine = TextEditingController();
   //username and profile image
   var username = FirebaseAuth.instance.currentUser?.displayName ?? 'guest';
-  var email = FirebaseAuth.instance.currentUser?.email ?? '';
+  var email = FirebaseAuth.instance.currentUser?.email ?? 'no email';
   var profileImage = FirebaseAuth.instance.currentUser?.photoURL ?? '';
 
   //default medicines list
@@ -159,9 +159,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               //search textfield
-              SizedBox(
-                width: 240,
-                height: 40,
+              Expanded(
                 child: TextField(
                   controller: SearchedMedicine,
                   cursorColor: const Color.fromRGBO(223, 46, 56, 1),
@@ -369,7 +367,7 @@ class _HomeState extends State<Home> {
 
                                                 const SizedBox(width: 20),
 
-                                                //todo: save button
+                                                //save button
                                                 GestureDetector(
                                                   //execute saveMedicine method or navigate to login page
                                                   onTap: () async {
@@ -385,8 +383,48 @@ class _HomeState extends State<Home> {
                                                     }
                                                     //navigate to login page if guest
                                                     if (username == 'guest') {
-                                                      Navigator.pushNamed(
-                                                          context, '/login');
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                'Alert'),
+                                                            content: const Text(
+                                                                'you must be signed in, do you want?'),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  primary: Colors
+                                                                          .grey[
+                                                                      700],
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                        'Back'),
+                                                              ),
+                                                              ElevatedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                  AuthService()
+                                                                      .signOutAnonymously();
+                                                                },
+                                                                child: const Text(
+                                                                    'Confirm'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
                                                     }
                                                   },
                                                   child: Row(

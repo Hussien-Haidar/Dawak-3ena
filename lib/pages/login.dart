@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
 
                 const SizedBox(height: 25),
 
-                //sign in/up using google button
+                //sign in using google button
                 GestureDetector(
                   onTap: () => AuthService()
                       .signInWithGoogle(Scaffold.of(context).context),
@@ -65,9 +65,9 @@ class _LoginState extends State<Login> {
 
                         const SizedBox(width: 20),
 
-                        //Sign in/up using google
+                        //Sign in using google
                         const Text(
-                          'Sign In/Up using Google',
+                          'Sign In using Google',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -142,7 +142,7 @@ class _LoginState extends State<Login> {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(40, 0, 50, 30),
                   child: Text(
-                    'Not a member? No problem, sign up using the signin button and the system will automatically register you',
+                    'Not a member? No problem, sign up using the sign in button and the system will automatically register you',
                     style: TextStyle(
                       color: Color.fromRGBO(223, 46, 55, 1),
                       fontWeight: FontWeight.w500,
