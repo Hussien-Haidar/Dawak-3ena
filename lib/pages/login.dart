@@ -9,6 +9,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String dropdownValue = 'ENGLISH';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,34 @@ class _LoginState extends State<Login> {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 50),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, top: 10),
+                      child: DropdownButton(
+                        value: dropdownValue,
+                        onChanged: (var newValue) {
+                          setState(
+                            () {
+                              dropdownValue = newValue!;
+                            },
+                          );
+                        },
+                        items: <String>['ENGLISH', 'عربي']
+                            .map<DropdownMenuItem<String>>(
+                          (String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 30),
 
                 //lock icon
                 Icon(
