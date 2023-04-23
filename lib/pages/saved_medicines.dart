@@ -304,10 +304,7 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                   }
                                                 },
                                                 child: SvgPicture.asset(
-                                                  list[index]['status'] ==
-                                                          'verified'
-                                                      ? "assets/icons/whatsapp.svg"
-                                                      : "assets/icons/unavailable.svg",
+                                                  "assets/icons/whatsapp.svg",
                                                   height: 26,
                                                   color: list[index]
                                                               ['status'] ==
