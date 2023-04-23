@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mailto/mailto.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -57,9 +58,9 @@ class _NavBarState extends State<NavBar> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Alert'),
-                          content:
-                              const Text('you must be signed in, do you want?'),
+                          title: Text(AppLocalizations.of(context)!.alert),
+                          content: Text(
+                              AppLocalizations.of(context)!.youMustBeSignedInAlert),
                           actions: [
                             ElevatedButton(
                               onPressed: () {
@@ -68,14 +69,14 @@ class _NavBarState extends State<NavBar> {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.grey[700],
                               ),
-                              child: const Text('Back'),
+                              child: Text(AppLocalizations.of(context)!.back),
                             ),
                             ElevatedButton(
                               onPressed: () async {
                                 Navigator.of(context).pop();
                                 AuthService().signOutAnonymously();
                               },
-                              child: const Text('Confirm'),
+                              child: Text(AppLocalizations.of(context)!.confirm),
                             ),
                           ],
                         );
@@ -97,9 +98,9 @@ class _NavBarState extends State<NavBar> {
                     const SizedBox(height: 5),
 
                     //saved
-                    const Text(
-                      'SAVED',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.saved,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 11,
                       ),
@@ -126,9 +127,9 @@ class _NavBarState extends State<NavBar> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Alert'),
+                          title: Text(AppLocalizations.of(context)!.alert),
                           content:
-                              const Text('you must be signed in, do you want?'),
+                             Text(AppLocalizations.of(context)!.youMustBeSignedInAlert),
                           actions: [
                             ElevatedButton(
                               onPressed: () {
@@ -137,14 +138,14 @@ class _NavBarState extends State<NavBar> {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.grey[700],
                               ),
-                              child: const Text('Back'),
+                              child: Text(AppLocalizations.of(context)!.back),
                             ),
                             ElevatedButton(
                               onPressed: () async {
                                 Navigator.of(context).pop();
                                 AuthService().signOutAnonymously();
                               },
-                              child: const Text('Confirm'),
+                              child: Text(AppLocalizations.of(context)!.confirm),
                             ),
                           ],
                         );
@@ -166,9 +167,9 @@ class _NavBarState extends State<NavBar> {
                     const SizedBox(height: 5),
 
                     //wanted
-                    const Text(
-                      'WANTED',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.wanted,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 11,
                       ),
@@ -198,9 +199,9 @@ class _NavBarState extends State<NavBar> {
                     const SizedBox(height: 5),
 
                     //CONTACT US
-                    const Text(
-                      'CONTACT US',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.contactUs,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 11,
                       ),
@@ -227,9 +228,9 @@ class _NavBarState extends State<NavBar> {
                   const SizedBox(height: 5),
 
                   //more
-                  const Text(
-                    'MORE',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.more,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 11,
                     ),

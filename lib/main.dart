@@ -7,6 +7,9 @@ import 'package:find_medicine/pages/auth_page.dart';
 import 'package:find_medicine/pages/wanted_medicines.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +19,13 @@ Future main() async {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/auth_check',
+      supportedLocales: L10n.all,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       routes: {
         '/auth_check': (context) => const AuthPage(),
         '/login': (context) => const Login(),

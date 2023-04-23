@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SavedMedicines extends StatefulWidget {
   const SavedMedicines({super.key});
@@ -56,260 +57,302 @@ class _SavedMedicinesState extends State<SavedMedicines> {
           padding: const EdgeInsets.fromLTRB(12, 20, 12, 30),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: Colors.grey[50],
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Column(
-                  children: [
-                    //saved medicines text
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 0, 8, 0),
-                      child: Row(
-                        children: [
-                          //saved medicines
-                          Text(
-                            "Saved Medicines",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.grey[800],
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Column(
+                    children: [
+                      //saved medicines text
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 8, 0),
+                        child: Row(
+                          children: [
+                            //saved medicines
+                            Text(
+                              AppLocalizations.of(context)!.savedMedicines,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.grey[800],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
 
-                    //posts
-                    FutureBuilder(
-                        //future build using the data of getSavedMedicines method
-                        future: getSavedMedicines(),
-                        builder: (context, snapshot) {
-                          //if data is being retreived
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 15),
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          //if data found
-                          else if (snapshot.hasData) {
-                            //fill data with map
-                            Map map = snapshot.data;
-                            //fill list with the data argument from the map
-                            List list = List.from(map['data']);
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: list.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 30, 0, 0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      //medicine name + pharmacy name + location button
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          //medicine name + pharmacy name
-                                          Row(
-                                            children: [
-                                              //medicine name
-                                              Text(
-                                                list[index]['name'],
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
+                      //posts
+                      FutureBuilder(
+                          //future build using the data of getSavedMedicines method
+                          future: getSavedMedicines(),
+                          builder: (context, snapshot) {
+                            //if data is being retreived
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Padding(
+                                padding: EdgeInsets.only(top: 15),
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            //if data found
+                            else if (snapshot.hasData) {
+                              //fill data with map
+                              Map map = snapshot.data;
+                              //fill list with the data argument from the map
+                              List list = List.from(map['data']);
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: list.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 30, 0, 0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        //medicine name + pharmacy name + location button
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            //medicine name + pharmacy name
+                                            Row(
+                                              children: [
+                                                //medicine name
+                                                Text(
+                                                  list[index]['name'],
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                              ),
-                                              //pharmacy name
-                                              Text(
-                                                "${"(" + list[index]['pharmacy_name']})",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey[800],
+                                                //pharmacy name
+                                                Text(
+                                                  "${"(" + list[index]['pharmacy_name']})",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey[800],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
+                                              ],
+                                            ),
 
-                                          const SizedBox(height: 5),
+                                            const SizedBox(height: 5),
 
-                                          //todo: location button + save button
-                                          Row(
-                                            children: [
-                                              //todo: location button
-                                              GestureDetector(
-                                                onTap: () {},
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.location_on,
-                                                      color: Colors.blue[700],
-                                                    ),
-                                                    //
-                                                    Text(
-                                                      'Bekaa',
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                            //todo: location button + save button
+                                            Row(
+                                              children: [
+                                                //todo: location button
+                                                GestureDetector(
+                                                  onTap: () {},
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.location_on,
                                                         color: Colors.blue[700],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-
-                                              const SizedBox(width: 20),
-
-                                              //save button
-                                              GestureDetector(
-                                                //execute saveMedicine method
-                                                onTap: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title:
-                                                            const Text('Alert'),
-                                                        content: const Text(
-                                                            'Are you sure you want to remove the post from your save list?'),
-                                                        actions: [
-                                                          ElevatedButton(
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              primary: Colors
-                                                                  .grey[700],
-                                                            ),
-                                                            child: const Text(
-                                                                'Back'),
-                                                          ),
-                                                          ElevatedButton(
-                                                            onPressed:
-                                                                () async {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                              await saveMedicine(
-                                                                list[index]
-                                                                    ['name'],
-                                                                list[index][
-                                                                    'pharmacy_name'],
-                                                              );
-                                                              setState(() {});
-                                                            },
-                                                            child: const Text(
-                                                                'Confirm'),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                },
-
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.bookmark_added,
-                                                      color: Colors.red[200],
-                                                    ),
-                                                    //
-                                                    Text(
-                                                      "Saved",
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey[700],
+                                                      //
+                                                      Text(
+                                                        'Bekaa',
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.blue[700],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                const SizedBox(width: 20),
+
+                                                //save button
+                                                GestureDetector(
+                                                  //execute saveMedicine method
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              AppLocalizations.of(
+                                                                      context)!
+                                                                  .alert),
+                                                          content: Text(
+                                                              AppLocalizations.of(
+                                                                      context)!
+                                                                  .removePostAlert),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                              child: Text(
+                                                                  AppLocalizations.of(
+                                                                          context)!
+                                                                      .back),
+                                                            ),
+                                                            ElevatedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                await saveMedicine(
+                                                                  list[index]
+                                                                      ['name'],
+                                                                  list[index][
+                                                                      'pharmacy_name'],
+                                                                );
+                                                                setState(() {});
+                                                              },
+                                                              child: Text(
+                                                                  AppLocalizations.of(
+                                                                          context)!
+                                                                      .confirm),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.bookmark_added,
+                                                        color: Colors.red[200],
+                                                      ),
+                                                      //
+                                                      Text(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .savedAndDone,
+                                                        style: TextStyle(
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.grey[700],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+
+                                        //whatsapp button
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 15),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 8),
+                                            decoration: BoxDecoration(
+                                              color: list[index]['status'] ==
+                                                      'verified'
+                                                  ? const Color.fromARGB(
+                                                      255, 0, 172, 6)
+                                                  : Colors.grey[200],
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(15),
+                                              ),
+                                            ),
+                                            child: Tooltip(
+                                              message: list[index]['status'] ==
+                                                      'verified'
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .contact
+                                                  : AppLocalizations.of(
+                                                          context)!
+                                                      .notAvailablePostHint,
+                                              child: GestureDetector(
+                                                //direct to whatsapp specifically to the retreived number
+                                                onTap: () async {
+                                                  if (list[index]['status'] ==
+                                                      'verified') {
+                                                    var link = WhatsAppUnilink(
+                                                      phoneNumber: "+961" +
+                                                          list[index]
+                                                              ['phone_number'],
+                                                    );
+                                                    await launch('$link');
+                                                  }
+                                                },
+                                                child: SvgPicture.asset(
+                                                  list[index]['status'] ==
+                                                          'verified'
+                                                      ? "assets/icons/whatsapp.svg"
+                                                      : "assets/icons/unavailable.svg",
+                                                  height: 26,
+                                                  color: list[index]
+                                                              ['status'] ==
+                                                          'verified'
+                                                      ? Colors.grey[100]
+                                                      : Colors.red[700],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-
-                                      //whatsapp button
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15),
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 8),
-                                          decoration: const BoxDecoration(
-                                            color:
-                                                Color.fromARGB(255, 0, 172, 6),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(15),
-                                            ),
-                                          ),
-                                          child: GestureDetector(
-                                            //direct to whatsapp specifically to the retreived number
-                                            onTap: () async {
-                                              var link = WhatsAppUnilink(
-                                                phoneNumber: "+961" +
-                                                    list[index]['phone_number'],
-                                              );
-                                              await launch('$link');
-                                            },
-                                            child: SvgPicture.asset(
-                                              "assets/icons/whatsapp.svg",
-                                              height: 26,
-                                              color: Colors.grey[100],
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                            //if data not found
+                            else if (!snapshot.hasData) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .noSavedMedicines,
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                );
-                              },
-                            );
-                          }
-                          //if data not found
-                          else if (!snapshot.hasData) {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                'No saved medicines',
-                                style: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontWeight: FontWeight.w700,
                                 ),
-                              ),
-                            );
-                          } else {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                'Something went wrong',
-                                style: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontWeight: FontWeight.w700,
+                              );
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  'Something went wrong',
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                        }),
-                  ],
+                              );
+                            }
+                          }),
+                    ],
+                  ),
                 ),
               ),
             ],

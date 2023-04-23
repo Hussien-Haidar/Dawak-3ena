@@ -1,5 +1,6 @@
 import 'package:find_medicine/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,10 +10,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String dropdownValue = 'ENGLISH';
-
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = AppLocalizations.of(context)!.language;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
@@ -33,8 +33,11 @@ class _LoginState extends State<Login> {
                             },
                           );
                         },
-                        items: <String>['ENGLISH', 'عربي']
-                            .map<DropdownMenuItem<String>>(
+                        items: <String>[
+                          "عربي",
+                          "English",
+                          AppLocalizations.of(context)!.deviceLanguage,
+                        ].map<DropdownMenuItem<String>>(
                           (String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -60,7 +63,7 @@ class _LoginState extends State<Login> {
 
                 //weclome back, you've been missed!
                 Text(
-                  'Weclome back you\'ve been missed!',
+                  AppLocalizations.of(context)!.welcomeBack,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey[500],
@@ -95,9 +98,9 @@ class _LoginState extends State<Login> {
                         const SizedBox(width: 20),
 
                         //Sign in using google
-                        const Text(
-                          'Sign In using Google',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.signInUsingGoogle,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: Colors.white,
@@ -122,7 +125,7 @@ class _LoginState extends State<Login> {
 
                     //or continue as guest
                     Text(
-                      'Or Continue as guest',
+                      AppLocalizations.of(context)!.orContinueAsGuest,
                       style: TextStyle(
                         color: Colors.grey[750],
                       ),
@@ -168,11 +171,11 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 50),
 
                 //not a member?
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(40, 0, 50, 30),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 50, 30),
                   child: Text(
-                    'Not a member? No problem, sign up using the sign in button and the system will automatically register you',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.notAMember,
+                    style: const TextStyle(
                       color: Color.fromRGBO(223, 46, 55, 1),
                       fontWeight: FontWeight.w500,
                     ),

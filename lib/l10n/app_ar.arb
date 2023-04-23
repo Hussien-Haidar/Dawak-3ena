@@ -1,0 +1,85 @@
+{
+    "language": "عربي",
+
+    "secondLanguage": "English",
+
+    "deviceLanguage": "لغة الجهاز",
+    
+    "welcomeBack": "مرحبا بك مرة أخرى لقد إشتقنا لك!",
+    
+    "signInUsingGoogle": "تسجيل الدخول باستخدام جوجل",
+
+    "orContinueAsGuest": "أو الاستمرار كضيف",
+
+    "notAMember": "لست عضوا؟ لا مشكلة ، قم بالتسجيل باستخدام زر تسجيل الدخول وسيقوم النظام بتسجيلك تلقائيا.",
+
+    "guest": "زائر",
+
+    "noEmailText": "لا يوجد بريد إلكتروني",
+
+    "searchHere": "ابحث هنا...",
+
+    "saved": "المحفوظات",
+
+    "wanted": "المطلوب",
+
+    "contactUs": "اتصل بنا",
+
+    "more": "المزيد",
+
+    "medicines": "قائمة الأدوية",
+
+    "savedMedicines": "الأدوية المحفوظة",
+
+    "filter": "تصفية حسب",
+
+    "save": "حفظ",
+
+    "savedAndDone": "تم الحفظ",
+
+    "alert": "ملاحظة",
+
+    "youMustBeSignedInAlert": "يجب تسجيل الدخول أولا, هل تريد ذلك؟",
+
+    "removePostAlert": "هل أنت متأكد من أنك تريد إزالة المنشور من قائمة الحفظ الخاصة بك؟",
+
+    "back": "تراجع",
+
+    "confirm": "متابعة",
+
+    "pressBackAgain": "إضغط مرة أخرى للخروج",
+
+    "wantedMedicinesHint": "تلميح: أدخل الدواء الذي تبحث عنه والذي لا يتوفر في المخزون ، عندما يتوفر الدواء ، سيتم إخطارك.",
+
+    "insertMedicineHint": "أدخل الدواء",
+
+    "insertMedicineButtonText": "أدخل",
+
+    "addYourFirstRequest": "أضف طلبك الأول",
+
+    "pleaseEnterMedicineName": "الرجاء ادخال اسم الدواء",
+
+    "medicineAlreadyInserted": "الدواء موجود بالفعل!",
+
+    "contact": "تواصل",
+
+   "notAvailablePostHint": "غير متوفر",
+
+   "somethingWentWrong": "حدث خطأ ما",
+
+   "noSavedMedicines": "لا توجد أدوية محفوظة",
+
+   "notifications": "الاخطارات",
+
+   "notificationDetails": "تفاصيل الإخطار",
+
+   "proceeding": "الإجراء جار...",
+
+   "date": "التاريخ: ",
+
+   "viewMore": "عرض المزيد",
+
+   "noNotifications": "لا إخطارات",
+
+   "important": "مهم"
+}

@@ -1,0 +1,85 @@
+{
+    "language": "English",
+
+    "secondLanguage": "عربي",
+
+    "deviceLanguage": "Device language",
+    
+    "welcomeBack": "Welcome back you've been missed!",
+    
+    "signInUsingGoogle": "Sign in using Google",
+
+    "orContinueAsGuest": "or continue as guest",
+
+    "notAMember": "Not a member? No problem, sign up using the sign in button and the system will automatically register you",
+
+    "guest": "guest",
+
+    "noEmailText": "no email",
+
+    "searchHere": "Search Here...",
+
+    "saved": "SAVED",
+
+    "wanted": "WANTED",
+
+    "contactUs": "CONTACT US",
+
+    "more": "MORE",
+
+    "medicines": "Medicines",
+
+    "savedMedicines": "Saved Medicines",
+
+    "filter": "Filter",
+
+    "save": "save",
+
+    "savedAndDone": "saved",
+
+    "alert": "Alert",
+
+    "youMustBeSignedInAlert": "you must be signed in, do you want?",
+
+    "removePostAlert": "Are you sure you want to remove the post from your save list?",
+
+    "back": "Back",
+
+    "confirm": "Confirm",
+
+    "pressBackAgain": "Press back again to exit",
+
+    "wantedMedicinesHint": "Hint: Enter the medicine you are searching for and which is not available in the stock, when the medicine is available you will get notified.",
+
+    "insertMedicineHint": "Insert medicine",
+
+    "insertMedicineButtonText": "Insert",
+
+   "addYourFirstRequest": "Add your first request",
+
+   "pleaseEnterMedicineName": "Please Enter medicine name",
+
+   "medicineAlreadyInserted": "Medicine is already inserted!",
+
+   "contact": "contact",
+
+   "notAvailablePostHint": "not available",
+
+   "somethingWentWrong": "Something went wrong",
+
+   "noSavedMedicines": "No saved medicines",
+
+   "notifications": "Notifications",
+
+   "notificationDetails": "Notification Details",
+
+   "proceeding": "proceeding...",
+
+   "date": "Date: ",
+
+   "viewMore": "view more",
+
+   "noNotifications": "No notifications",
+
+   "important": "Important"
+}

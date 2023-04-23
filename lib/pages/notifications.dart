@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -44,7 +45,7 @@ class _NotificationsState extends State<Notifications> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Notification',
+              AppLocalizations.of(context)!.notifications,
               style: TextStyle(
                 color: Colors.grey[800],
               ),
@@ -70,9 +71,10 @@ class _NotificationsState extends State<Notifications> {
               future: getNotifications(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                    child: Text('proceeding...'),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    child: Text(AppLocalizations.of(context)!.proceeding),
                   );
                 } else if (snapshot.hasData) {
                   //fill data with map
@@ -83,94 +85,114 @@ class _NotificationsState extends State<Notifications> {
                     shrinkWrap: true,
                     itemCount: list.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                list[index]['title'],
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: list[index]['title'],
                                 style: TextStyle(
                                   color: Colors.grey[800],
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
-                              ),
-                              Text(
-                                list[index]['importance'] == 'important'
-                                    ? '(Important)'
-                                    : '',
-                                style: const TextStyle(
-                                  color: Colors.orange,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/details',
-                                arguments: list[index],
-                              );
-                            },
-                            child: Text(
-                              list[index]['body'],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.grey[700],
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: list[index]['importance'] ==
+                                            'important'
+                                        ? '(${AppLocalizations.of(context)!.important})'
+                                        : '',
+                                    style: const TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Date: ' + list[index]['created_at'],
+                            const SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/details',
+                                  arguments: list[index],
+                                );
+                              },
+                              child: Text(
+                                list[index]['body'],
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.grey[700],
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/details',
-                                      arguments: list[index]);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(10),
+                            ),
+                            const SizedBox(height: 15),
+                            Directionality(
+                              textDirection: AppLocalizations.of(context)!.language=='English'
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.date +
+                                        list[index]['created_at'],
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
-                                  child: Row(
-                                    children: const [
-                                      Text("view more"),
-                                      Icon(Icons.keyboard_arrow_right_rounded)
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Divider(
-                            thickness: 1.5,
-                            color: Colors.grey[200],
-                          ),
-                        ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/details',
+                                          arguments: list[index]);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(AppLocalizations.of(context)!
+                                              .viewMore),
+                                          Icon(
+                                            AppLocalizations.of(context)!
+                                                        .language ==
+                                                    'عربي'
+                                                ? Icons
+                                                    .keyboard_arrow_left_rounded
+                                                : Icons
+                                                    .keyboard_arrow_right_rounded,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Divider(
+                              thickness: 1.5,
+                              color: Colors.grey[200],
+                            ),
+                          ],
+                        ),
                       );
                     },
                   );
                 } else if (snapshot.connectionState == ConnectionState.none) {
-                  return const Text('Something went Wrong');
+                  return Text(AppLocalizations.of(context)!.somethingWentWrong);
                 } else {
-                  return const Text('No notifications');
+                  return Text(AppLocalizations.of(context)!.noNotifications);
                 }
               },
             ),

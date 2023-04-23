@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WantedMedicines extends StatefulWidget {
   const WantedMedicines({super.key});
@@ -47,46 +48,20 @@ class _WantedMedicinesState extends State<WantedMedicines> {
       //decode the retreived json data
       var result = jsonDecode(response.body);
       //if connected successfully
-      if (response.statusCode == 200) {
-        //if medicine doesn't exist
-        if (result['success']) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(result['message']),
-              backgroundColor: Colors.grey[500],
-            ),
-          );
-          medicine.text = "";
-        }
-        //if medicine exist
-        else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(result['message']),
-              backgroundColor: Colors.grey[500],
-            ),
-          );
-          medicine.text = "";
-        }
+      //if medicine doesn't exist
+      if (result['success']) {
+        medicine.text = "";
       }
-      //if not connected
+      //if medicine exist
       else {
+        medicine.text = "";
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Failed to add medicine"),
-            backgroundColor: Colors.grey[500],
-          ),
-        );
-      }
-    }
-    //if medicine textfield is empty
-    else {
-      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text("Please Enter medicine name"),
+          content: Text(AppLocalizations.of(context)!.medicineAlreadyInserted),
           backgroundColor: Colors.grey[500],
         ),
       );
+      }
     }
   }
 
@@ -112,7 +87,7 @@ class _WantedMedicinesState extends State<WantedMedicines> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Text(
-                'Hint: Enter the medicine you are searching for and which is not available in the stock, when the medicine is available you will get notified.',
+                AppLocalizations.of(context)!.wantedMedicinesHint,
                 style: TextStyle(
                   color: Colors.grey[700],
                 ),
@@ -120,63 +95,83 @@ class _WantedMedicinesState extends State<WantedMedicines> {
             ),
 
             //add medicine + submit button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                children: [
-                  //medicine textfield
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 15),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 5),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            topLeft: Radius.circular(20)),
-                      ),
-                      child: TextField(
-                        controller: medicine,
-                        cursorColor: const Color.fromRGBO(223, 46, 56, 1),
-                        decoration: InputDecoration(
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          hintText: "Add Medicine",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  //submit button
-                  SizedBox(
-                    height: 57,
-                    child: ElevatedButton(
-                      //execute the addMedicine method
-                      onPressed: () async {
-                        await addMedicine();
-                        setState(() {});
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        elevation: 10,
-                        shape: const RoundedRectangleBorder(
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    //medicine textfield
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 15),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 5),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              topLeft: Radius.circular(20)),
+                        ),
+                        child: Directionality(
+                          textDirection: AppLocalizations.of(context)!.language=="عربي"
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                          child: TextField(
+                            controller: medicine,
+                            cursorColor: const Color.fromRGBO(223, 46, 56, 1),
+                            decoration: InputDecoration(
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              hintText: AppLocalizations.of(context)!
+                                  .insertMedicineHint,
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
                       ),
-                      //add
-                      child: const Text(
-                        'Add',
-                        style: TextStyle(
-                          color: Colors.white,
+                    ),
+                    //submit button
+                    SizedBox(
+                      height: 57,
+                      child: ElevatedButton(
+                        //execute the addMedicine method
+                        onPressed: () async {
+                          if (medicine.text != "") {
+                            await addMedicine();
+                            setState(() {});
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .pleaseEnterMedicineName),
+                                backgroundColor: Colors.grey[500],
+                              ),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          elevation: 10,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                          ),
+                        ),
+                        //add
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .insertMedicineButtonText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
@@ -202,54 +197,58 @@ class _WantedMedicinesState extends State<WantedMedicines> {
                     shrinkWrap: true,
                     itemCount: list.length,
                     itemBuilder: (context, index) {
-                      return Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
-                            child: Container(
-                              padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[50],
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(12),
+                      return Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[50],
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(12),
+                                  ),
+                                ),
+                                //medicine name + delete button
+                                child: Row(
+                                  children: [
+                                    //Medicine name
+                                    Text(
+                                      list[index]['name'],
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.grey[800],
+                                      ),
+                                    ),
+                                    //delete button
+                                    GestureDetector(
+                                      //execute deleteMedicine method
+                                      onTap: () {
+                                        setState(() {});
+                                        deleteMedicine(list[index]['name']);
+                                      },
+                                      child: SvgPicture.asset(
+                                        'assets/icons/remove.svg',
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              //medicine name + delete button
-                              child: Row(
-                                children: [
-                                  //Medicine name
-                                  Text(
-                                    list[index]['name'],
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.grey[800],
-                                    ),
-                                  ),
-                                  //delete button
-                                  GestureDetector(
-                                    //execute deleteMedicine method
-                                    onTap: () {
-                                      setState(() {});
-                                      deleteMedicine(list[index]['name']);
-                                    },
-                                    child: SvgPicture.asset(
-                                      'assets/icons/remove.svg',
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
                   );
                 }
                 //if data not found
                 else {
-                  return const Text('Add your first request');
+                  return Text(
+                      AppLocalizations.of(context)!.addYourFirstRequest);
                 }
               },
             ),
