@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, deprecated_member_use
 
 import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 
 class OsmMap extends StatefulWidget {
   const OsmMap({super.key});
@@ -18,7 +18,7 @@ class OsmMap extends StatefulWidget {
 
 class _OsmMapState extends State<OsmMap> {
   var locationName = "";
-  Future<String> getLocationName(double lat, double lng) async {
+  Future getLocationName(double lat, double lng) async {
     final url =
         'https://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lng&zoom=18&addressdetails=1';
     final response =
@@ -35,6 +35,43 @@ class _OsmMapState extends State<OsmMap> {
         data['address']['suburd'];
   }
 
+  Future getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled, so request the user to enable them
+      bool enable = await Geolocator.openLocationSettings();
+      if (!enable) {
+        // User did not enable location services
+        return null;
+      }
+    }
+
+    // Check if the app has permission to access location
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      // The user has previously denied location permission forever, so they need to go to settings to grant permission
+      bool enable = await Geolocator.openAppSettings();
+      if (!enable) {
+        // User did not grant permission
+        return null;
+      }
+    } else if (permission == LocationPermission.denied) {
+      // The user has denied location permission, so request it from them
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        // User did not grant permission
+        return null;
+      }
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context)?.settings.arguments as Map;
@@ -42,6 +79,8 @@ class _OsmMapState extends State<OsmMap> {
     final double lng = double.parse(data['longitude']);
 
     getLocationName(lat, lng);
+
+    getCurrentLocation();
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
