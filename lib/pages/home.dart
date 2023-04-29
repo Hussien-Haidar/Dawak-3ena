@@ -246,7 +246,8 @@ class _HomeState extends State<Home> {
                       width: double.maxFinite,
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
-                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
                       ),
                       child: Column(
                         children: [
@@ -265,7 +266,7 @@ class _HomeState extends State<Home> {
                                     color: Colors.grey[800],
                                   ),
                                 ),
-                  
+
                                 //sort button
                                 GestureDetector(
                                   onTap: () {},
@@ -293,7 +294,7 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                           ),
-                  
+
                           //post
                           FutureBuilder(
                             future: getSearchedMedicines(),
@@ -327,22 +328,24 @@ class _HomeState extends State<Home> {
                                                     medicines[index]['name'],
                                                     style: const TextStyle(
                                                       fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                   //pharmacy name
                                                   Text(
                                                     "${"(" + medicines[index]['pharmacy_name']})",
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       color: Colors.grey[800],
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                  
+
                                               const SizedBox(height: 5),
-                  
+
                                               //todo: location button + save button
                                               Row(
                                                 children: [
@@ -354,9 +357,10 @@ class _HomeState extends State<Home> {
                                                         //icon
                                                         Icon(
                                                           Icons.location_on,
-                                                          color: Colors.blue[700],
+                                                          color:
+                                                              Colors.blue[700],
                                                         ),
-                  
+
                                                         //location name
                                                         Text(
                                                           'Bekaa',
@@ -364,16 +368,16 @@ class _HomeState extends State<Home> {
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color:
-                                                                Colors.blue[700],
+                                                            color: Colors
+                                                                .blue[700],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                  
+
                                                   const SizedBox(width: 20),
-                  
+
                                                   //save button
                                                   GestureDetector(
                                                     //execute saveMedicine method or navigate to login page
@@ -405,16 +409,17 @@ class _HomeState extends State<Home> {
                                                                       .youMustBeSignedInAlert),
                                                               actions: [
                                                                 ElevatedButton(
-                                                                  onPressed: () {
+                                                                  onPressed:
+                                                                      () {
                                                                     Navigator.of(
                                                                             context)
                                                                         .pop();
                                                                   },
                                                                   style: ElevatedButton
                                                                       .styleFrom(
-                                                                    primary: Colors
-                                                                            .grey[
-                                                                        700],
+                                                                    primary:
+                                                                        Colors.grey[
+                                                                            700],
                                                                   ),
                                                                   child: Text(
                                                                       AppLocalizations.of(
@@ -430,10 +435,9 @@ class _HomeState extends State<Home> {
                                                                     AuthService()
                                                                         .signOutAnonymously();
                                                                   },
-                                                                  child: Text(
-                                                                      AppLocalizations.of(
-                                                                              context)!
-                                                                          .confirm),
+                                                                  child: Text(AppLocalizations.of(
+                                                                          context)!
+                                                                      .confirm),
                                                                 ),
                                                               ],
                                                             );
@@ -446,7 +450,8 @@ class _HomeState extends State<Home> {
                                                         //icon
                                                         Icon(
                                                           savedMedicines.contains(
-                                                                  medicines[index]
+                                                                  medicines[
+                                                                          index]
                                                                       ['id'])
                                                               ? Icons
                                                                   .bookmark_added
@@ -456,15 +461,18 @@ class _HomeState extends State<Home> {
                                                                   .contains(
                                                                       medicines[
                                                                               index]
-                                                                          ['id'])
+                                                                          [
+                                                                          'id'])
                                                               ? Colors.red[200]
-                                                              : Colors.grey[500],
+                                                              : Colors
+                                                                  .grey[500],
                                                         ),
-                  
+
                                                         //save
                                                         Text(
                                                           savedMedicines.contains(
-                                                                  medicines[index]
+                                                                  medicines[
+                                                                          index]
                                                                       ['id'])
                                                               ? AppLocalizations
                                                                       .of(
@@ -477,8 +485,8 @@ class _HomeState extends State<Home> {
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color:
-                                                                Colors.grey[700],
+                                                            color: Colors
+                                                                .grey[700],
                                                           ),
                                                         ),
                                                       ],
@@ -490,11 +498,13 @@ class _HomeState extends State<Home> {
                                           ),
                                           //whatsapp button
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 15),
+                                            padding: const EdgeInsets.only(
+                                                right: 15),
                                             child: Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 14, vertical: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 14,
+                                                      vertical: 8),
                                               decoration: const BoxDecoration(
                                                 color: Color.fromARGB(
                                                     255, 0, 172, 6),
