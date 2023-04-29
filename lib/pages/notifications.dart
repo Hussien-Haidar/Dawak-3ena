@@ -133,9 +133,11 @@ class _NotificationsState extends State<Notifications> {
                             ),
                             const SizedBox(height: 15),
                             Directionality(
-                              textDirection: AppLocalizations.of(context)!.language=='English'
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
+                              textDirection:
+                                  AppLocalizations.of(context)!.language ==
+                                          'English'
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

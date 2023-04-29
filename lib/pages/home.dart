@@ -351,7 +351,14 @@ class _HomeState extends State<Home> {
                                                 children: [
                                                   //todo: location button
                                                   GestureDetector(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        '/map',
+                                                        arguments:
+                                                            medicines[index],
+                                                      );
+                                                    },
                                                     child: Row(
                                                       children: [
                                                         //icon

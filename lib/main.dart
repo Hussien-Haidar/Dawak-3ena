@@ -4,6 +4,7 @@ import 'package:find_medicine/pages/notification_details.dart';
 import 'package:find_medicine/pages/notifications.dart';
 import 'package:find_medicine/pages/saved_medicines.dart';
 import 'package:find_medicine/pages/auth_page.dart';
+import 'package:find_medicine/pages/osm_map.dart';
 import 'package:find_medicine/pages/wanted_medicines.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ Future main() async {
         '/wanted': (context) => const WantedMedicines(),
         '/notifications': (context) => const Notifications(),
         '/details': (context) => const Details(),
+        '/map': (context) => const OsmMap(),
       },
     ),
   );
