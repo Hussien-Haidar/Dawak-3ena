@@ -18,6 +18,18 @@ class OsmMap extends StatefulWidget {
 
 class _OsmMapState extends State<OsmMap> {
   var locationName = "";
+  Position currentPosition = const Position(
+    latitude: 0,
+    longitude: 0,
+    accuracy: 0,
+    altitude: 0,
+    heading: 0,
+    speed: 0,
+    speedAccuracy: 0,
+    timestamp: null,
+  );
+  MapController mapController = MapController();
+
   Future getLocationName(double lat, double lng) async {
     final url =
         'https://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lng&zoom=18&addressdetails=1';
@@ -68,8 +80,21 @@ class _OsmMapState extends State<OsmMap> {
         return null;
       }
     }
+    currentPosition = await Geolocator.getCurrentPosition();
+    setState(() {
+      Marker(
+        width: 80.0,
+        height: 80.0,
+        point: LatLng(currentPosition.latitude, currentPosition.longitude),
+        builder: (ctx) => const Icon(Icons.my_location),
+      );
+    });
+  }
 
-    return await Geolocator.getCurrentPosition();
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
   }
 
   @override
@@ -79,8 +104,6 @@ class _OsmMapState extends State<OsmMap> {
     final double lng = double.parse(data['longitude']);
 
     getLocationName(lat, lng);
-
-    getCurrentLocation();
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
@@ -97,10 +120,13 @@ class _OsmMapState extends State<OsmMap> {
         ),
       ),
       body: FlutterMap(
+        mapController: mapController,
         options: MapOptions(
           center: LatLng(
-              double.parse(data['latitude']), double.parse(data['longitude'])),
-          zoom: 15,
+            double.parse(data['latitude']),
+            double.parse(data['longitude']),
+          ),
+          zoom: 8,
           maxZoom: 18,
           minZoom: 8,
         ),
@@ -111,8 +137,12 @@ class _OsmMapState extends State<OsmMap> {
           MarkerLayer(
             markers: [
               Marker(
-                point: LatLng(double.parse(data['latitude']),
-                    double.parse(data['longitude'])),
+                width: 80.0,
+                height: 80.0,
+                point: LatLng(
+                  double.parse(data['latitude']),
+                  double.parse(data['longitude']),
+                ),
                 builder: (ctx) => GestureDetector(
                   onTap: () {
                     showDialog(
@@ -238,8 +268,60 @@ class _OsmMapState extends State<OsmMap> {
                   },
                   child: const Icon(
                     Icons.location_pin,
-                    color: Colors.red,
+                    color: Color.fromARGB(255, 225, 0, 255),
                     size: 50,
+                  ),
+                ),
+              ),
+              Marker(
+                width: 80.0,
+                height: 80.0,
+                point:
+                    LatLng(currentPosition.latitude, currentPosition.longitude),
+                builder: (ctx) => GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: ctx,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          icon: const Icon(Icons.info_outline),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 8,
+                          backgroundColor: Colors.grey[200],
+                          shadowColor: Colors.red[300],
+                          content: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Your Current Location",
+                                  style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: const Icon(
+                    Icons.my_location_rounded,
+                    color: Color.fromARGB(255, 255, 1, 1),
+                    size: 35,
                   ),
                 ),
               ),

@@ -165,29 +165,32 @@ class _HomeState extends State<Home> {
             children: [
               //search textfield
               Expanded(
-                child: TextField(
-                  controller: SearchedMedicine,
-                  cursorColor: const Color.fromRGBO(223, 46, 56, 1),
-                  textInputAction: TextInputAction.search,
-                  onSubmitted: (value) async {
-                    await getSearchedMedicines();
-                    setState(() {});
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 214, 214, 214),
-                    hintText: AppLocalizations.of(context)!.searchHere,
-                    contentPadding: const EdgeInsets.all(10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search, color: Colors.red),
-                      onPressed: () async {
-                        await getSearchedMedicines();
-                        setState(() {});
-                      },
+                child: SizedBox(
+                  height: 40,
+                  child: TextField(
+                    controller: SearchedMedicine,
+                    cursorColor: const Color.fromRGBO(223, 46, 56, 1),
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (value) async {
+                      await getSearchedMedicines();
+                      setState(() {});
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 214, 214, 214),
+                      hintText: AppLocalizations.of(context)!.searchHere,
+                      contentPadding: const EdgeInsets.all(10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search, color: Colors.red),
+                        onPressed: () async {
+                          await getSearchedMedicines();
+                          setState(() {});
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -349,7 +352,7 @@ class _HomeState extends State<Home> {
                                               //todo: location button + save button
                                               Row(
                                                 children: [
-                                                  //todo: location button
+                                                  //location button
                                                   GestureDetector(
                                                     onTap: () {
                                                       Navigator.pushNamed(

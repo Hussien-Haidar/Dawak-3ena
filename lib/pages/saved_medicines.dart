@@ -150,9 +150,16 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                             //todo: location button + save button
                                             Row(
                                               children: [
-                                                //todo: location button
+                                                //location button
                                                 GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        '/map',
+                                                        arguments:
+                                                            list[index],
+                                                      );
+                                                    },
                                                   child: Row(
                                                     children: [
                                                       Icon(
