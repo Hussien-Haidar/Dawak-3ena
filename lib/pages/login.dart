@@ -12,7 +12,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = AppLocalizations.of(context)!.language;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
@@ -20,37 +19,7 @@ class _LoginState extends State<Login> {
           child: Center(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12, top: 10),
-                      child: DropdownButton(
-                        value: dropdownValue,
-                        onChanged: (var newValue) {
-                          setState(
-                            () {
-                              dropdownValue = newValue!;
-                            },
-                          );
-                        },
-                        items: <String>[
-                          "عربي",
-                          "English",
-                          AppLocalizations.of(context)!.deviceLanguage,
-                        ].map<DropdownMenuItem<String>>(
-                          (String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 30),
+                const SizedBox(height: 60),
 
                 //lock icon
                 Icon(
@@ -150,7 +119,7 @@ class _LoginState extends State<Login> {
                     GestureDetector(
                       //navigate to home page with guest username
                       onTap: () {
-                        AuthService().signInAnonymously();
+                        Navigator.pushNamed(context, '/home');
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20),

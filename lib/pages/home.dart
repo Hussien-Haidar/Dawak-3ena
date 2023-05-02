@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, deprecated_member_use, prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
+import 'package:find_medicine/pages/auth_page.dart';
 import 'package:find_medicine/services/auth_service.dart';
 import 'package:find_medicine/widgets/navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,17 +23,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //for onWillPop method
   DateTime? currentBackPressTime;
-  //controller of the search bar
+
   var SearchedMedicine = TextEditingController();
-  //username and profile image
-  var username = FirebaseAuth.instance.currentUser?.displayName ?? 'guest';
-  var email = FirebaseAuth.instance.currentUser?.email ?? 'no email';
+
+  var username = FirebaseAuth.instance.currentUser?.displayName ?? 'Anonymous';
+  var email = FirebaseAuth.instance.currentUser?.email ?? '';
   var profileImage = FirebaseAuth.instance.currentUser?.photoURL ?? '';
 
-  //default medicines list
   var medicines = [];
-
-  //default medicines list
   var savedMedicines = [];
 
   //method that retrieves the available medicines
@@ -89,84 +87,31 @@ class _HomeState extends State<Home> {
           titleSpacing: 0,
           elevation: 2,
           backgroundColor: Colors.grey[300],
-          //circle avatar
           leading: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: GestureDetector(
-              onTap: () {
-                showMenu(
-                  context: context,
-                  position: const RelativeRect.fromLTRB(0, 60, 100, 0),
-                  elevation: 8.0,
-                  items: [
-                    //username
-                    PopupMenuItem(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.person,
-                            size: 20,
-                            color: Colors.grey[700],
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            username != 'guest'
-                                ? username
-                                : AppLocalizations.of(context)!.guest,
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 13,
+            child: Builder(
+              builder: ((context) => GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.grey[300],
+                      backgroundImage: profileImage != ''
+                          ? NetworkImage(profileImage)
+                          : const NetworkImage(
+                              'https://img.icons8.com/office/256/guest-male.png',
                             ),
-                          ),
-                        ],
-                      ),
                     ),
-
-                    //email
-                    PopupMenuItem(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.email,
-                            size: 20,
-                            color: Colors.grey[700],
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            email != 'no email'
-                                ? email
-                                : AppLocalizations.of(context)!.noEmailText,
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-              child: CircleAvatar(
-                backgroundColor: Colors.grey[300],
-                backgroundImage: profileImage != ''
-                    ? NetworkImage(profileImage)
-                    : const NetworkImage(
-                        'https://img.icons8.com/office/256/guest-male.png',
-                      ),
-                radius: 20,
-              ),
+                  )),
             ),
           ),
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //search textfield
+              const SizedBox(width: 5),
               Expanded(
                 child: SizedBox(
-                  height: 40,
+                  height: 50,
                   child: TextField(
                     controller: SearchedMedicine,
                     cursorColor: const Color.fromRGBO(223, 46, 56, 1),
@@ -195,36 +140,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-
-              //notification button
-              IconButton(
-                padding: EdgeInsets.zero,
-                hoverColor: Colors.transparent,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/notifications');
-                },
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.grey[800],
-                  size: 25,
-                ),
-              ),
-
-              //login/out button
-              IconButton(
-                onPressed: () {
-                  if (username == 'guest') {
-                    AuthService().signOutAnonymously();
-                  } else {
-                    AuthService().signOutGoogle();
-                  }
-                },
-                icon: Icon(
-                  username != 'guest' ? Icons.logout : Icons.login,
-                  color: Colors.grey[800],
-                  size: 25,
-                ),
-              ),
+              const SizedBox(width: 12),
             ],
           ),
         ),
@@ -349,7 +265,7 @@ class _HomeState extends State<Home> {
 
                                               const SizedBox(height: 5),
 
-                                              //todo: location button + save button
+                                              //location button + save button
                                               Row(
                                                 children: [
                                                   //location button
@@ -393,7 +309,7 @@ class _HomeState extends State<Home> {
                                                     //execute saveMedicine method or navigate to login page
                                                     onTap: () async {
                                                       //execute saveMedicine method if logged in
-                                                      if (username != 'guest') {
+                                                      if (email != '') {
                                                         await saveMedicine(
                                                           medicines[index]
                                                               ['name'],
@@ -403,12 +319,26 @@ class _HomeState extends State<Home> {
                                                         setState(() {});
                                                       }
                                                       //navigate to login page if guest
-                                                      if (username == 'guest') {
+                                                      if (email == '') {
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext
                                                               context) {
                                                             return AlertDialog(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            16),
+                                                              ),
+                                                              elevation: 8,
+                                                              backgroundColor:
+                                                                  Colors.grey[
+                                                                      200],
+                                                              shadowColor:
+                                                                  Colors
+                                                                      .red[300],
                                                               title: Text(
                                                                   AppLocalizations.of(
                                                                           context)!
@@ -420,6 +350,41 @@ class _HomeState extends State<Home> {
                                                               actions: [
                                                                 ElevatedButton(
                                                                   onPressed:
+                                                                      () async {
+                                                                    await AuthService()
+                                                                        .signInWithGoogle(
+                                                                            context);
+                                                                    Navigator
+                                                                        .pushReplacement(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                const AuthPage(),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    primary: Colors
+                                                                        .black,
+                                                                  ),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Image
+                                                                          .asset(
+                                                                        'assets/images/google.png',
+                                                                        height:
+                                                                            40,
+                                                                      ),
+                                                                      Text(AppLocalizations.of(
+                                                                              context)!
+                                                                          .signInUsingGoogle),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                ElevatedButton(
+                                                                  onPressed:
                                                                       () {
                                                                     Navigator.of(
                                                                             context)
@@ -429,25 +394,18 @@ class _HomeState extends State<Home> {
                                                                       .styleFrom(
                                                                     primary:
                                                                         Colors.grey[
-                                                                            700],
+                                                                            400],
                                                                   ),
-                                                                  child: Text(
-                                                                      AppLocalizations.of(
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(AppLocalizations.of(
                                                                               context)!
                                                                           .back),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                    AuthService()
-                                                                        .signOutAnonymously();
-                                                                  },
-                                                                  child: Text(AppLocalizations.of(
-                                                                          context)!
-                                                                      .confirm),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ],
                                                             );
@@ -561,6 +519,234 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ],
+          ),
+        ),
+        drawer: Drawer(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.grey[400],
+                  width: double.infinity,
+                  height: 200,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        height: 70,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: profileImage != ''
+                                ? NetworkImage(profileImage)
+                                : const NetworkImage(
+                                    'https://img.icons8.com/office/256/guest-male.png',
+                                  ),
+                          ),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 154, 210, 255),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        username,
+                        style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        email,
+                        style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Column(
+                    children: [
+                      //settings
+                      Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Icon(
+                                    Icons.settings_outlined,
+                                    size: 20,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    "settings",
+                                    style: TextStyle(
+                                        color: Colors.grey[700],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //notifications
+                      Material(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/notifications');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Icon(
+                                    Icons.notifications_outlined,
+                                    size: 20,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    "Notifications",
+                                    style: TextStyle(
+                                        color: Colors.grey[700],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const Divider(),
+
+                      //privacy policy
+                      Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Icon(
+                                    Icons.privacy_tip_outlined,
+                                    size: 20,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    "Privacy policy",
+                                    style: TextStyle(
+                                        color: Colors.grey[700],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //feedback
+                      Material(
+                        child: InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Icon(
+                                    Icons.feedback_outlined,
+                                    size: 20,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    "Send Feedback",
+                                    style: TextStyle(
+                                        color: Colors.grey[700],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const Divider(),
+
+                      //sign in/out
+                      Material(
+                        child: InkWell(
+                          onTap: () {
+                            if (email == '') {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const AuthPage(),
+                                ),
+                              );
+                            } else {
+                              AuthService().signOutGoogle();
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Icon(
+                                    email == ''
+                                        ? Icons.login_outlined
+                                        : Icons.logout_outlined,
+                                    size: 20,
+                                    color: Colors.red[800],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    email == '' ? "Sign In" : "Sign out",
+                                    style: TextStyle(
+                                        color: Colors.red[700],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

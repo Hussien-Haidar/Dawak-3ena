@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, deprecated_member_use
+// ignore_for_file: non_constant_identifier_names, deprecated_member_use, use_build_context_synchronously
 
 import 'package:find_medicine/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mailto/mailto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../pages/auth_page.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -58,25 +60,53 @@ class _NavBarState extends State<NavBar> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 8,
+                          backgroundColor: Colors.grey[200],
+                          shadowColor: Colors.red[300],
                           title: Text(AppLocalizations.of(context)!.alert),
-                          content: Text(
-                              AppLocalizations.of(context)!.youMustBeSignedInAlert),
+                          content: Text(AppLocalizations.of(context)!
+                              .youMustBeSignedInAlert),
                           actions: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await AuthService().signInWithGoogle(context);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AuthPage(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/google.png',
+                                    height: 40,
+                                  ),
+                                  Text(AppLocalizations.of(context)!
+                                      .signInUsingGoogle),
+                                ],
+                              ),
+                            ),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.grey[700],
+                                primary: Colors.grey[400],
                               ),
-                              child: Text(AppLocalizations.of(context)!.back),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                                AuthService().signOutAnonymously();
-                              },
-                              child: Text(AppLocalizations.of(context)!.confirm),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.back),
+                                ],
+                              ),
                             ),
                           ],
                         );
@@ -127,25 +157,53 @@ class _NavBarState extends State<NavBar> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 8,
+                          backgroundColor: Colors.grey[200],
+                          shadowColor: Colors.red[300],
                           title: Text(AppLocalizations.of(context)!.alert),
-                          content:
-                             Text(AppLocalizations.of(context)!.youMustBeSignedInAlert),
+                          content: Text(AppLocalizations.of(context)!
+                              .youMustBeSignedInAlert),
                           actions: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await AuthService().signInWithGoogle(context);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AuthPage(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/google.png',
+                                    height: 40,
+                                  ),
+                                  Text(AppLocalizations.of(context)!
+                                      .signInUsingGoogle),
+                                ],
+                              ),
+                            ),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.grey[700],
+                                primary: Colors.grey[400],
                               ),
-                              child: Text(AppLocalizations.of(context)!.back),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                                AuthService().signOutAnonymously();
-                              },
-                              child: Text(AppLocalizations.of(context)!.confirm),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.back),
+                                ],
+                              ),
                             ),
                           ],
                         );
