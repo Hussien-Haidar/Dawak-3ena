@@ -574,7 +574,9 @@ class _HomeState extends State<Home> {
                       //settings
                       Material(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, '/settings');
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Row(

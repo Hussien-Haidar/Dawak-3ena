@@ -91,6 +91,21 @@ class _OsmMapState extends State<OsmMap> {
     });
   }
 
+  Future openGoogleMaps(double lat, double lng) async {
+    final url = 'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      final webUrl =
+          'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng&dirflg=w';
+      if (await canLaunch(webUrl)) {
+        await launch(webUrl);
+      } else {
+        throw 'Could not launch $webUrl';
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -328,6 +343,32 @@ class _OsmMapState extends State<OsmMap> {
             ],
           ),
         ],
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: ElevatedButton(
+          onPressed: () {
+            openGoogleMaps(double.parse(data['latitude']),
+                double.parse(data['longitude']));
+          },
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.red[600]),
+              padding: MaterialStateProperty.all(
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12)),
+              textStyle:
+                  MaterialStateProperty.all(const TextStyle(fontSize: 20))),
+          child: SizedBox(
+            width: 300,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(Icons.map, size: 30),
+                SizedBox(width: 10),
+                Text('Track with Google Maps')
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
