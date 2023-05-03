@@ -81,5 +81,35 @@
 
    "noNotifications": "No notifications",
 
-   "important": "Important"
+   "important": "Important",
+
+   "sendFeedback": "Send Feedback",
+
+   "privacyPolicy": "Privacy policy",
+
+   "settings": "Settings",
+
+   "signOut": "Sign out",
+
+   "signIn": "Sign In",
+
+   "anonymous": "Anonymous",
+
+   "medicineOnMap": "{medicine} on map",
+
+   "trackWithGoogleMaps": "Track with google maps",
+
+   "close": "Close",
+
+   "yourCurrentLocation": "Your Current Location",
+
+   "phoneNumber": "Phone number: ",
+
+   "location": "Location: ",
+
+   "pharmacy": "Pharmacy: ",
+
+   "pharmacist": "Pharmacist: ",
+
+   "info": "{medicine} info"
 }

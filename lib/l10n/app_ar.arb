@@ -81,5 +81,35 @@
 
    "noNotifications": "لا إخطارات",
 
-   "important": "مهم"
+   "important": "مهم",
+
+   "sendFeedback": "إرسال ملاحظة",
+
+   "privacyPolicy": "سياسة الخصوصية",
+
+   "settings": "الإعدادات",
+
+   "signOut": "تسجيل خروج",
+
+   "signIn": "تسجيل دخول",
+
+   "anonymous": "مجهول",
+
+   "medicineOnMap": "{medicine} على الخريطة",
+
+   "trackWithGoogleMaps": "تتبع على خرائط جوجل",
+
+   "close": "إغلاق",
+
+   "yourCurrentLocation": "موقعك الحالي",
+
+   "phoneNumber": "رقم التليفون: ",
+
+   "location": "الموقع: ",
+
+   "pharmacy": "الصيدلية: ",
+
+   "pharmacist": "الصيدلي: ",
+
+   "info": "{medicine}"
 }

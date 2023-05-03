@@ -8,6 +8,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OsmMap extends StatefulWidget {
   const OsmMap({super.key});
@@ -128,7 +129,7 @@ class _OsmMapState extends State<OsmMap> {
         backgroundColor: Colors.grey[300],
         title: Text(
           overflow: TextOverflow.ellipsis,
-          "${data['name']} on Map",
+          AppLocalizations.of(context)!.medicineOnMap(data['name']),
           style: TextStyle(
             color: Colors.grey[800],
           ),
@@ -168,7 +169,8 @@ class _OsmMapState extends State<OsmMap> {
                             children: [
                               const Icon(Icons.info_outline),
                               const SizedBox(width: 5),
-                              Text(data['name'] + ' Info'),
+                              Text(AppLocalizations.of(context)!
+                                  .info(data['name'])),
                             ],
                           ),
                           shape: RoundedRectangleBorder(
@@ -185,7 +187,8 @@ class _OsmMapState extends State<OsmMap> {
                               children: [
                                 RichText(
                                   text: TextSpan(
-                                    text: "Pharmacist: ",
+                                    text: AppLocalizations.of(context)!
+                                        .pharmacist,
                                     style: TextStyle(
                                       color: Colors.grey[800],
                                       fontWeight: FontWeight.w600,
@@ -205,7 +208,8 @@ class _OsmMapState extends State<OsmMap> {
                                 const SizedBox(height: 5),
                                 RichText(
                                   text: TextSpan(
-                                    text: "Pharmacy: ",
+                                    text:
+                                        AppLocalizations.of(context)!.pharmacy,
                                     style: TextStyle(
                                       color: Colors.grey[800],
                                       fontWeight: FontWeight.w600,
@@ -225,7 +229,8 @@ class _OsmMapState extends State<OsmMap> {
                                 const SizedBox(height: 5),
                                 RichText(
                                   text: TextSpan(
-                                    text: "Location: ",
+                                    text:
+                                        AppLocalizations.of(context)!.location,
                                     style: TextStyle(
                                       color: Colors.grey[800],
                                       fontWeight: FontWeight.w600,
@@ -245,7 +250,8 @@ class _OsmMapState extends State<OsmMap> {
                                 const SizedBox(height: 5),
                                 RichText(
                                   text: TextSpan(
-                                    text: "Phone number: ",
+                                    text: AppLocalizations.of(context)!
+                                        .phoneNumber,
                                     style: TextStyle(
                                       color: Colors.grey[800],
                                       fontWeight: FontWeight.w600,
@@ -274,7 +280,7 @@ class _OsmMapState extends State<OsmMap> {
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
-                              child: const Text('Close'),
+                              child: Text(AppLocalizations.of(context)!.close),
                             ),
                           ],
                         );
@@ -313,7 +319,8 @@ class _OsmMapState extends State<OsmMap> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Your Current Location",
+                                  AppLocalizations.of(context)!
+                                      .yourCurrentLocation,
                                   style: TextStyle(
                                     color: Colors.grey[800],
                                     fontWeight: FontWeight.w600,
@@ -326,7 +333,7 @@ class _OsmMapState extends State<OsmMap> {
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
-                              child: const Text('Close'),
+                              child: Text(AppLocalizations.of(context)!.close),
                             ),
                           ],
                         );
@@ -361,10 +368,10 @@ class _OsmMapState extends State<OsmMap> {
             width: 300,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.map, size: 30),
-                SizedBox(width: 10),
-                Text('Track with Google Maps')
+              children: [
+                const Icon(Icons.map, size: 30),
+                const SizedBox(width: 10),
+                Text(AppLocalizations.of(context)!.trackWithGoogleMaps)
               ],
             ),
           ),

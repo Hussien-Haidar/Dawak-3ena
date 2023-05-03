@@ -591,7 +591,7 @@ class _HomeState extends State<Home> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    "settings",
+                                    AppLocalizations.of(context)!.settings,
                                     style: TextStyle(
                                         color: Colors.grey[700],
                                         fontSize: 16,
@@ -623,7 +623,7 @@ class _HomeState extends State<Home> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    "Notifications",
+                                    AppLocalizations.of(context)!.notifications,
                                     style: TextStyle(
                                         color: Colors.grey[700],
                                         fontSize: 16,
@@ -656,7 +656,7 @@ class _HomeState extends State<Home> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    "Privacy policy",
+                                    AppLocalizations.of(context)!.privacyPolicy,
                                     style: TextStyle(
                                         color: Colors.grey[700],
                                         fontSize: 16,
@@ -686,7 +686,7 @@ class _HomeState extends State<Home> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    "Send Feedback",
+                                    AppLocalizations.of(context)!.sendFeedback,
                                     style: TextStyle(
                                         color: Colors.grey[700],
                                         fontSize: 16,
@@ -732,7 +732,9 @@ class _HomeState extends State<Home> {
                                 Expanded(
                                   flex: 3,
                                   child: Text(
-                                    email == '' ? "Sign In" : "Sign out",
+                                    email == ''
+                                        ? AppLocalizations.of(context)!.signIn
+                                        : AppLocalizations.of(context)!.signOut,
                                     style: TextStyle(
                                         color: Colors.red[700],
                                         fontSize: 16,

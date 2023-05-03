@@ -147,19 +147,18 @@ class _SavedMedicinesState extends State<SavedMedicines> {
 
                                             const SizedBox(height: 5),
 
-                                            //todo: location button + save button
+                                            //location button + save button
                                             Row(
                                               children: [
                                                 //location button
                                                 GestureDetector(
                                                   onTap: () {
-                                                      Navigator.pushNamed(
-                                                        context,
-                                                        '/map',
-                                                        arguments:
-                                                            list[index],
-                                                      );
-                                                    },
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      '/map',
+                                                      arguments: list[index],
+                                                    );
+                                                  },
                                                   child: Row(
                                                     children: [
                                                       Icon(
@@ -192,6 +191,18 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                       builder: (BuildContext
                                                           context) {
                                                         return AlertDialog(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16),
+                                                          ),
+                                                          elevation: 8,
+                                                          backgroundColor:
+                                                              Colors.grey[200],
+                                                          shadowColor:
+                                                              Colors.red[300],
                                                           title: Text(
                                                               AppLocalizations.of(
                                                                       context)!
@@ -211,7 +222,7 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                                   ElevatedButton
                                                                       .styleFrom(
                                                                 primary: Colors
-                                                                    .grey[700],
+                                                                    .grey[400],
                                                               ),
                                                               child: Text(
                                                                   AppLocalizations.of(
