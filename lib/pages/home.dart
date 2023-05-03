@@ -98,9 +98,9 @@ class _HomeState extends State<Home> {
                       radius: 20,
                       backgroundColor: Colors.grey[300],
                       backgroundImage: profileImage != ''
-                          ? NetworkImage(profileImage)
-                          : const NetworkImage(
-                              'https://img.icons8.com/office/256/guest-male.png',
+                          ? Image.network(profileImage).image
+                          : const AssetImage(
+                              'assets/images/guest.png',
                             ),
                     ),
                   )),
@@ -111,7 +111,7 @@ class _HomeState extends State<Home> {
               const SizedBox(width: 5),
               Expanded(
                 child: SizedBox(
-                  height: 50,
+                  height: 45,
                   child: TextField(
                     controller: SearchedMedicine,
                     cursorColor: const Color.fromRGBO(223, 46, 56, 1),
@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.grey[300],
+                      fillColor: const Color.fromARGB(255, 236, 236, 236),
                       hintText: AppLocalizations.of(context)!.searchHere,
                       contentPadding: const EdgeInsets.all(10),
                       border: OutlineInputBorder(
@@ -492,6 +492,9 @@ class _HomeState extends State<Home> {
           ),
         ),
         drawer: Drawer(
+          elevation: 8,
+          shadowColor: Colors.red[500],
+          backgroundColor: Colors.grey[50],
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -509,9 +512,9 @@ class _HomeState extends State<Home> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: profileImage != ''
-                                ? NetworkImage(profileImage)
-                                : const NetworkImage(
-                                    'https://img.icons8.com/office/256/guest-male.png',
+                                ? Image.network(profileImage).image
+                                : const AssetImage(
+                                    'assets/images/guest.png',
                                   ),
                           ),
                           border: Border.all(

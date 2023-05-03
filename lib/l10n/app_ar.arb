@@ -111,5 +111,7 @@
 
    "pharmacist": "الصيدلي: ",
 
-   "info": "{medicine}"
+   "info": "{medicine}",
+
+   "map": "الخريطة"
 }

@@ -51,7 +51,7 @@ class _SavedMedicinesState extends State<SavedMedicines> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 20, 12, 30),

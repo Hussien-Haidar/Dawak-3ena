@@ -111,5 +111,7 @@
 
    "pharmacist": "Pharmacist: ",
 
-   "info": "{medicine} info"
+   "info": "{medicine} info",
+
+   "map": "Map"
 }

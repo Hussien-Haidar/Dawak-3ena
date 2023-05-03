@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -49,9 +51,11 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
                 leading: CircleAvatar(
-                  backgroundImage: NetworkImage(profileImage),
+                  backgroundImage: profileImage != ''
+                      ? Image.network(profileImage).image
+                      : const AssetImage('assets/images/guest.png'),
                 ),
-                trailing: const Icon(Icons.edit),
+                trailing: const Icon(Icons.keyboard_arrow_right),
               ),
             ),
             const SizedBox(height: 10),
@@ -63,24 +67,6 @@ class _SettingsState extends State<Settings> {
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
-                  ListTile(
-                    leading: Icon(
-                      Icons.lock_clock_outlined,
-                      color: Colors.red[700],
-                    ),
-                    title: Text(
-                      "Change Password",
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    trailing: const Icon(Icons.keyboard_arrow_right),
-                    onTap: () {},
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    width: double.infinity,
-                    height: 1,
-                    color: Colors.grey[400],
-                  ),
                   ListTile(
                     leading: Icon(
                       Icons.language,
@@ -101,11 +87,11 @@ class _SettingsState extends State<Settings> {
                   ),
                   ListTile(
                     leading: Icon(
-                      Icons.location_on,
+                      Icons.dark_mode,
                       color: Colors.red[700],
                     ),
                     title: Text(
-                      "Change Location",
+                      "Change Theme",
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right),
@@ -129,6 +115,14 @@ class _SettingsState extends State<Settings> {
               value: true,
               title: const Text("Allow Notifications"),
               onChanged: (val) {},
+            ),
+            Text(
+              AppLocalizations.of(context)!.map,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.indigo,
+              ),
             ),
             SwitchListTile(
               activeColor: Colors.red[700],
