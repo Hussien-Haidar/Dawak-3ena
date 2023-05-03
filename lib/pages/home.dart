@@ -82,11 +82,11 @@ class _HomeState extends State<Home> {
       //execute the onWillPop method
       onWillPop: onWillPop,
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           titleSpacing: 0,
           elevation: 2,
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[200],
           leading: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Builder(
@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color.fromARGB(255, 214, 214, 214),
+                      fillColor: Colors.grey[300],
                       hintText: AppLocalizations.of(context)!.searchHere,
                       contentPadding: const EdgeInsets.all(10),
                       border: OutlineInputBorder(
@@ -164,53 +164,23 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       width: double.maxFinite,
                       decoration: BoxDecoration(
-                        color: Colors.grey[100],
+                        color: Colors.grey[50],
                         borderRadius:
                             const BorderRadius.all(Radius.circular(20)),
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //sort button
                           Padding(
                             padding: const EdgeInsets.fromLTRB(12, 0, 8, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                //Medicines
-                                Text(
-                                  AppLocalizations.of(context)!.medicines,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.grey[800],
-                                  ),
-                                ),
-
-                                //sort button
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(30)),
-                                      border: Border.all(
-                                        color: Colors.blue.shade700,
-                                      ),
-                                    ),
-                                    //sort by
-                                    child: Text(
-                                      AppLocalizations.of(context)!.filter,
-                                      style: TextStyle(
-                                        color: Colors.blue[700],
-                                        letterSpacing: 1.5,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            child: Text(
+                              AppLocalizations.of(context)!.medicines,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.grey[800],
+                              ),
                             ),
                           ),
 

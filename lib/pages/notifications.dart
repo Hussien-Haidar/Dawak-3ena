@@ -36,11 +36,11 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 2,
         iconTheme: IconThemeData(color: Colors.grey[800]),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -62,7 +62,7 @@ class _NotificationsState extends State<Notifications> {
         child: Container(
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.grey[50],
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
           child: Padding(

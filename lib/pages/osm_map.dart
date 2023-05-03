@@ -122,11 +122,11 @@ class _OsmMapState extends State<OsmMap> {
     getLocationName(lat, lng);
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 2,
         iconTheme: IconThemeData(color: Colors.grey[800]),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         title: Text(
           overflow: TextOverflow.ellipsis,
           AppLocalizations.of(context)!.medicineOnMap(data['name']),

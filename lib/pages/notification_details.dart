@@ -15,11 +15,11 @@ class _DetailsState extends State<Details> {
     var list = (data as Map<String, dynamic>);
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 2,
         iconTheme: IconThemeData(color: Colors.grey[800]),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -43,7 +43,7 @@ class _DetailsState extends State<Details> {
             width: double.maxFinite,
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.grey[50],
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Directionality(

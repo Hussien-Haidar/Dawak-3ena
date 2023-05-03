@@ -37,7 +37,7 @@ class _NavBarState extends State<NavBar> {
         width: double.maxFinite,
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
         decoration: BoxDecoration(
-          color: Colors.grey[100],
+          color: Colors.grey[50],
           borderRadius: const BorderRadius.all(Radius.circular(20)),
         ),
         child: Row(
