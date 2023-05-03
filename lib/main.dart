@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:find_medicine/pages/home.dart';
 import 'package:find_medicine/pages/login.dart';
 import 'package:find_medicine/pages/notification_details.dart';
@@ -6,6 +8,7 @@ import 'package:find_medicine/pages/saved_medicines.dart';
 import 'package:find_medicine/pages/auth_page.dart';
 import 'package:find_medicine/pages/osm_map.dart';
 import 'package:find_medicine/pages/settings.dart';
+import 'package:find_medicine/pages/splash_screen.dart';
 import 'package:find_medicine/pages/wanted_medicines.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +23,7 @@ Future main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/auth_check',
+      initialRoute: '/splash',
       supportedLocales: L10n.all,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -29,6 +32,7 @@ Future main() async {
         GlobalWidgetsLocalizations.delegate,
       ],
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/auth_check': (context) => const AuthPage(),
         '/login': (context) => const Login(),
         '/home': (context) => const Home(),
@@ -37,7 +41,7 @@ Future main() async {
         '/notifications': (context) => const Notifications(),
         '/details': (context) => const Details(),
         '/map': (context) => const OsmMap(),
-        '/settings':(context) => const Settings(),
+        '/settings': (context) => const Settings(),
       },
     ),
   );
