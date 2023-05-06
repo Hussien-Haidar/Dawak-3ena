@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -15,6 +16,30 @@ class _SettingsState extends State<Settings> {
   var username = FirebaseAuth.instance.currentUser?.displayName ?? 'Anonymous';
   var email = FirebaseAuth.instance.currentUser?.email ?? '';
   var profileImage = FirebaseAuth.instance.currentUser?.photoURL ?? '';
+
+  bool _allowZoomButtons = false;
+  bool _allowNotifications = true;
+
+  _loadSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _allowZoomButtons = prefs.getBool('allowZoomButtons') ?? false;
+      _allowNotifications = prefs.getBool('allowNotifications') ?? true;
+    });
+  }
+
+  _saveSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('allowZoomButtons', _allowZoomButtons);
+    await prefs.setBool('allowNotifications', _allowNotifications);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the value of the switch from SharedPreferences
+    _loadSettings();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +137,14 @@ class _SettingsState extends State<Settings> {
             SwitchListTile(
               activeColor: Colors.red[700],
               contentPadding: const EdgeInsets.all(0),
-              value: true,
+              value: _allowNotifications,
               title: const Text("Allow Notifications"),
-              onChanged: (val) {},
+              onChanged: (newValue) {
+                setState(() {
+                  _allowNotifications = newValue;
+                  _saveSettings();
+                });
+              },
             ),
             Text(
               AppLocalizations.of(context)!.map,
@@ -127,9 +157,14 @@ class _SettingsState extends State<Settings> {
             SwitchListTile(
               activeColor: Colors.red[700],
               contentPadding: const EdgeInsets.all(0),
-              value: false,
+              value: _allowZoomButtons,
               title: const Text("Allow Zoom in/out buttons"),
-              onChanged: null,
+              onChanged: (newValue) {
+                setState(() {
+                  _allowZoomButtons = newValue;
+                  _saveSettings();
+                });
+              },
             ),
             const SizedBox(height: 60),
           ],

@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color.fromARGB(255, 236, 236, 236),
+                      fillColor: const Color.fromARGB(255, 230, 230, 230),
                       hintText: AppLocalizations.of(context)!.searchHere,
                       contentPadding: const EdgeInsets.all(10),
                       border: OutlineInputBorder(

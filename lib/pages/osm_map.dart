@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
@@ -30,6 +31,20 @@ class _OsmMapState extends State<OsmMap> {
     timestamp: null,
   );
   MapController mapController = MapController();
+
+  // Define two variables to keep track of the current zoom level and the maximum zoom level
+  double currentZoom = 8;
+  double minZoom = 8;
+  double maxZoom = 18;
+
+  bool _allowZoomButtons = false;
+
+  _loadSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _allowZoomButtons = prefs.getBool('allowZoomButtons') ?? false;
+    });
+  }
 
   Future getLocationName(double lat, double lng) async {
     final url =
@@ -111,6 +126,7 @@ class _OsmMapState extends State<OsmMap> {
   void initState() {
     super.initState();
     getCurrentLocation();
+    _loadSettings();
   }
 
   @override
@@ -139,12 +155,17 @@ class _OsmMapState extends State<OsmMap> {
         mapController: mapController,
         options: MapOptions(
           center: LatLng(
-            double.parse(data['latitude']),
-            double.parse(data['longitude']),
+            33.882533,
+            35.748181,
           ),
-          zoom: 8,
-          maxZoom: 18,
-          minZoom: 8,
+          zoom: currentZoom,
+          maxZoom: maxZoom,
+          minZoom: minZoom,
+          onPositionChanged: (MapPosition position, bool hasGesture) {
+            if (hasGesture) {
+              currentZoom = position.zoom!;
+            }
+          },
         ),
         children: [
           TileLayer(
@@ -153,8 +174,8 @@ class _OsmMapState extends State<OsmMap> {
           MarkerLayer(
             markers: [
               Marker(
-                width: 80.0,
-                height: 80.0,
+                width: 50,
+                height: 50,
                 point: LatLng(
                   double.parse(data['latitude']),
                   double.parse(data['longitude']),
@@ -274,13 +295,40 @@ class _OsmMapState extends State<OsmMap> {
                                     ],
                                   ),
                                 ),
+                                const SizedBox(height: 5),
                               ],
                             ),
                           ),
                           actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(AppLocalizations.of(context)!.close),
+                            ElevatedButton(
+                              onPressed: () {
+                                openGoogleMaps(double.parse(data['latitude']),
+                                    double.parse(data['longitude']));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red[600],
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.map, size: 30),
+                                  Text(AppLocalizations.of(context)!
+                                      .trackWithGoogleMaps),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey[400],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.back),
+                                ],
+                              ),
                             ),
                           ],
                         );
@@ -352,29 +400,77 @@ class _OsmMapState extends State<OsmMap> {
         ],
       ),
       floatingActionButton: Align(
-        alignment: Alignment.bottomCenter,
-        child: ElevatedButton(
-          onPressed: () {
-            openGoogleMaps(double.parse(data['latitude']),
-                double.parse(data['longitude']));
-          },
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.red[600]),
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12)),
-              textStyle:
-                  MaterialStateProperty.all(const TextStyle(fontSize: 20))),
-          child: SizedBox(
-            width: 300,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        alignment: Alignment.bottomRight,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
               children: [
-                const Icon(Icons.map, size: 30),
-                const SizedBox(width: 10),
-                Text(AppLocalizations.of(context)!.trackWithGoogleMaps)
+                Visibility(
+                  visible: _allowZoomButtons ? true : false,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                      color: Colors.red,
+                    ),
+                    child: GestureDetector(
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        if (currentZoom < maxZoom) {
+                          currentZoom++;
+                          LatLng targetLatLng = LatLng(
+                              double.parse(data['latitude']),
+                              double.parse(data['longitude']));
+                          mapController.move(targetLatLng, currentZoom);
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Visibility(
+                  visible: _allowZoomButtons ? true : false,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                      color: Colors.red,
+                    ),
+                    child: GestureDetector(
+                      child: const Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        if (currentZoom > minZoom) {
+                          currentZoom--;
+                          LatLng targetLatLng = LatLng(
+                              double.parse(data['latitude']),
+                              double.parse(data['longitude']));
+                          mapController.move(targetLatLng, currentZoom);
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

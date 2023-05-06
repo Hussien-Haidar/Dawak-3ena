@@ -17,7 +17,6 @@ class AuthService {
     var link =
         'http://hussien300.000webhostapp.com/Dawak%203ena/google_auth.php';
     Uri url = Uri.parse(link);
-    var pushToken = await FirebaseMessaging.instance.getToken();
     var response = await http.post(
       url,
       body: {
@@ -25,11 +24,26 @@ class AuthService {
         'uid': uid,
         'full_name': fullName,
         'email': email,
-        'push_token': pushToken,
+        'push_token':
+            await FirebaseMessaging.instance.getToken() ?? 'push token',
       },
     );
     //Decode the returned json in var result
     result = jsonDecode(response.body);
+  }
+
+  Future updatePushToken(var email) async {
+    var link =
+        'http://hussien300.000webhostapp.com/Dawak%203ena/update_push_token.php';
+    Uri url = Uri.parse(link);
+    await http.post(
+      url,
+      body: {
+        'email': email,
+        'push_token':
+            await FirebaseMessaging.instance.getToken() ?? 'push token',
+      },
+    );
   }
 
   //google sign in
@@ -67,6 +81,8 @@ class AuthService {
       FirebaseAuth.instance.currentUser?.displayName,
       FirebaseAuth.instance.currentUser?.email,
     );
+
+    await updatePushToken(FirebaseAuth.instance.currentUser?.email);
 
     //if account is new, display welcome message
     if (!result['exist']) {
