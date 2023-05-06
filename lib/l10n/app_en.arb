@@ -11,7 +11,7 @@
 
     "orContinueAsGuest": "or continue as guest",
 
-    "notAMember": "Not a member? No problem, sign up using the sign in button and the system will automatically register you",
+    "notAMember": "Not a member? Sign up using the sign in button",
 
     "guest": "guest",
 
@@ -113,5 +113,7 @@
 
    "info": "{medicine} info",
 
-   "map": "Map"
+   "map": "Map",
+
+   "profile": "Profile"
 }

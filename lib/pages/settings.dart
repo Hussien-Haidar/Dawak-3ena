@@ -81,6 +81,9 @@ class _SettingsState extends State<Settings> {
                       : const AssetImage('assets/images/guest.png'),
                 ),
                 trailing: const Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
               ),
             ),
             const SizedBox(height: 10),

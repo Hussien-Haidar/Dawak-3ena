@@ -4,6 +4,7 @@ import 'package:find_medicine/pages/home.dart';
 import 'package:find_medicine/pages/login.dart';
 import 'package:find_medicine/pages/notification_details.dart';
 import 'package:find_medicine/pages/notifications.dart';
+import 'package:find_medicine/pages/profile.dart';
 import 'package:find_medicine/pages/saved_medicines.dart';
 import 'package:find_medicine/pages/auth_page.dart';
 import 'package:find_medicine/pages/osm_map.dart';
@@ -42,6 +43,7 @@ Future main() async {
         '/details': (context) => const Details(),
         '/map': (context) => const OsmMap(),
         '/settings': (context) => const Settings(),
+        '/profile':(context) => const UserProfile(),
       },
     ),
   );
