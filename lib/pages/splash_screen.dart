@@ -21,11 +21,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset(
-          'assets/images/logo.png',
-          height: 200,
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/logo.png',
+            height: 200,
+          ),
+          const SizedBox(height: 10),
+          Center(
+            child: Text(
+              "Dawak 3ena",
+              style: TextStyle(
+                color: Colors.grey[800],
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

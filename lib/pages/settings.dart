@@ -104,7 +104,7 @@ class _SettingsState extends State<Settings> {
                       color: Colors.red[700],
                     ),
                     title: Text(
-                      "Change Language",
+                      AppLocalizations.of(context)!.changeLanguage,
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right),
@@ -122,7 +122,7 @@ class _SettingsState extends State<Settings> {
                       color: Colors.red[700],
                     ),
                     title: Text(
-                      "Change Theme",
+                      AppLocalizations.of(context)!.changeTheme,
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right),
@@ -144,7 +144,7 @@ class _SettingsState extends State<Settings> {
               activeColor: Colors.red[700],
               contentPadding: const EdgeInsets.all(0),
               value: _allowNotifications,
-              title: const Text("Allow Notifications"),
+              title: Text(AppLocalizations.of(context)!.allowNotifications),
               onChanged: (newValue) {
                 setState(() {
                   _allowNotifications = newValue;
@@ -164,7 +164,7 @@ class _SettingsState extends State<Settings> {
               activeColor: Colors.red[700],
               contentPadding: const EdgeInsets.all(0),
               value: _allowZoomButtons,
-              title: const Text("Allow Zoom in/out buttons"),
+              title: Text(AppLocalizations.of(context)!.displayZoomButtons),
               onChanged: (newValue) {
                 setState(() {
                   _allowZoomButtons = newValue;

@@ -86,7 +86,7 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                             ],
                           ),
                         ),
-              
+
                         //posts
                         FutureBuilder(
                             //future build using the data of getSavedMedicines method
@@ -111,8 +111,8 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                   itemCount: list.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(20, 30, 0, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 30, 0, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -132,22 +132,24 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                     list[index]['name'],
                                                     style: const TextStyle(
                                                       fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                   //pharmacy name
                                                   Text(
                                                     "${"(" + list[index]['pharmacy_name']})",
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       color: Colors.grey[800],
                                                     ),
                                                   ),
                                                 ],
                                               ),
-              
+
                                               const SizedBox(height: 5),
-              
+
                                               //location button + save button
                                               Row(
                                                 children: [
@@ -164,7 +166,8 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                       children: [
                                                         Icon(
                                                           Icons.location_on,
-                                                          color: Colors.blue[700],
+                                                          color:
+                                                              Colors.blue[700],
                                                         ),
                                                         //
                                                         Text(
@@ -173,16 +176,16 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color:
-                                                                Colors.blue[700],
+                                                            color: Colors
+                                                                .blue[700],
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-              
+
                                                   const SizedBox(width: 20),
-              
+
                                                   //save button
                                                   GestureDetector(
                                                     //execute saveMedicine method
@@ -201,7 +204,8 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                             ),
                                                             elevation: 8,
                                                             backgroundColor:
-                                                                Colors.grey[200],
+                                                                Colors
+                                                                    .grey[200],
                                                             shadowColor:
                                                                 Colors.red[300],
                                                             title: Text(
@@ -219,11 +223,11 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                                           context)
                                                                       .pop();
                                                                 },
-                                                                style:
-                                                                    ElevatedButton
-                                                                        .styleFrom(
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
                                                                   primary: Colors
-                                                                      .grey[400],
+                                                                          .grey[
+                                                                      400],
                                                                 ),
                                                                 child: Text(
                                                                     AppLocalizations.of(
@@ -237,12 +241,13 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                                           context)
                                                                       .pop();
                                                                   await saveMedicine(
-                                                                    list[index]
-                                                                        ['name'],
+                                                                    list[index][
+                                                                        'name'],
                                                                     list[index][
                                                                         'pharmacy_name'],
                                                                   );
-                                                                  setState(() {});
+                                                                  setState(
+                                                                      () {});
                                                                 },
                                                                 child: Text(
                                                                     AppLocalizations.of(
@@ -254,12 +259,13 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                         },
                                                       );
                                                     },
-              
+
                                                     child: Row(
                                                       children: [
                                                         Icon(
                                                           Icons.bookmark_added,
-                                                          color: Colors.red[200],
+                                                          color:
+                                                              Colors.red[200],
                                                         ),
                                                         //
                                                         Text(
@@ -270,8 +276,8 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                             fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color:
-                                                                Colors.grey[700],
+                                                            color: Colors
+                                                                .grey[700],
                                                           ),
                                                         ),
                                                       ],
@@ -281,14 +287,16 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                               ),
                                             ],
                                           ),
-              
+
                                           //whatsapp button
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 15),
+                                            padding: const EdgeInsets.only(
+                                                right: 15),
                                             child: Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 20, vertical: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
                                               decoration: BoxDecoration(
                                                 color: list[index]['status'] ==
                                                         'verified'
@@ -301,7 +309,8 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                 ),
                                               ),
                                               child: Tooltip(
-                                                message: list[index]['status'] ==
+                                                message: list[index]
+                                                            ['status'] ==
                                                         'verified'
                                                     ? AppLocalizations.of(
                                                             context)!
@@ -314,10 +323,11 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                                   onTap: () async {
                                                     if (list[index]['status'] ==
                                                         'verified') {
-                                                      var link = WhatsAppUnilink(
+                                                      var link =
+                                                          WhatsAppUnilink(
                                                         phoneNumber: "+961" +
-                                                            list[index]
-                                                                ['phone_number'],
+                                                            list[index][
+                                                                'phone_number'],
                                                       );
                                                       await launch('$link');
                                                     }
@@ -358,7 +368,8 @@ class _SavedMedicinesState extends State<SavedMedicines> {
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Text(
-                                    'Something went wrong',
+                                    AppLocalizations.of(context)!
+                                        .somethingWentWrong,
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontWeight: FontWeight.w700,

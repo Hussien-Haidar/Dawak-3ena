@@ -127,5 +127,13 @@
 
     "welcomeSir": "Welcome Sir!",
 
-   "thanksForSigningUp": "Thanks for signing up!"
+   "thanksForSigningUp": "Thanks for signing up!",
+
+   "changeLanguage": "Change Language",
+
+   "changeTheme": "Change Theme",
+
+   "allowNotifications": "Allow Notifications",
+
+    "displayZoomButtons": "Display Zoom in/out buttons"
 }

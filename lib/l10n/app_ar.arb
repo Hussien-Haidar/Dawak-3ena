@@ -127,5 +127,13 @@
 
     "welcomeSir": "مرحبا بك!",
 
-   "thanksForSigningUp": "شكرا لتسجيلك!"
+   "thanksForSigningUp": "شكرا لتسجيلك!",
+
+   "changeLanguage": "تغيير اللغة",
+
+   "changeTheme": "تغيير الخلفية",
+
+   "allowNotifications": "السماح بالإشعارات",
+
+    "displayZoomButtons": "عرض أزرار التكبير/التصغير"
 }
