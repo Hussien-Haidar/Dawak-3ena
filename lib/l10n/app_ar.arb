@@ -115,5 +115,17 @@
 
    "map": "الخريطة",
 
-   "profile": "الملف الشخصي"
+   "profile": "الملف الشخصي",
+
+   "account": "الملف الشخصي",
+
+   "deleteAccount": "حذف الحساب",
+
+   "permanentlyDeleteAccount": "حذف الحساب بشكل دائم؟",
+
+   "permanentlyDeleteAccountAlert": "هل انت متأكد انك تريد حذف حسابك؟ سوف يذهب بشكل نهائي.",
+
+    "welcomeSir": "مرحبا بك!",
+
+   "thanksForSigningUp": "شكرا لتسجيلك!"
 }

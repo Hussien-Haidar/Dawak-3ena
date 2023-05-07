@@ -43,7 +43,7 @@ Future main() async {
         '/details': (context) => const Details(),
         '/map': (context) => const OsmMap(),
         '/settings': (context) => const Settings(),
-        '/profile':(context) => const UserProfile(),
+        '/profile': (context) => const UserProfile(),
       },
     ),
   );

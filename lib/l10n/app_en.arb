@@ -115,5 +115,17 @@
 
    "map": "Map",
 
-   "profile": "Profile"
+   "profile": "Profile",
+
+   "account": "Account",
+   
+   "deleteAccount": "Delete account",
+
+   "permanentlyDeleteAccount": "Permanently Delete Account?",
+
+   "permanentlyDeleteAccountAlert": "Are you sure you want to delete your account? It will gone forever.",
+
+    "welcomeSir": "Welcome Sir!",
+
+   "thanksForSigningUp": "Thanks for signing up!"
 }

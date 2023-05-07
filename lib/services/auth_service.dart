@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthService {
   late var result;
@@ -90,14 +91,20 @@ class AuthService {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Welcome!'),
-            content: const Text('Thanks for signing up!'),
+            title: Text(AppLocalizations.of(context)!.welcomeSir),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 8,
+            backgroundColor: Colors.grey[200],
+            shadowColor: Colors.red[300],
+            content: Text(AppLocalizations.of(context)!.thanksForSigningUp),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.close),
               ),
             ],
           );

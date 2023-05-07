@@ -79,10 +79,13 @@ class _SettingsState extends State<Settings> {
                   backgroundImage: profileImage != ''
                       ? Image.network(profileImage).image
                       : const AssetImage('assets/images/guest.png'),
+                  backgroundColor: Colors.grey[200],
                 ),
                 trailing: const Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  Navigator.pushNamed(context, '/profile');
+                  if (email != '') {
+                    Navigator.pushNamed(context, '/profile');
+                  }
                 },
               ),
             ),
